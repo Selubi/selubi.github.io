@@ -30,7 +30,7 @@ const config = {
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en','ja'],
   },
 
   presets: [
@@ -73,18 +73,22 @@ const config = {
 
         },
         items: [
-          // {
-          //   type: 'docSidebar',
-          //   sidebarId: 'tutorialSidebar',
-          //   position: 'left',
-          //   label: 'Tutorial',
-          // },
+          {
+            type: 'docSidebar',
+            sidebarId: 'tutorialSidebar',
+            position: 'left',
+            label: 'Docs',
+          },
           // {to: '/blog', label: 'Blog', position: 'left'},
           // {
           //   href: 'https://github.com/Selubi/selubi.github.io',
           //   label: 'GitHub',
           //   position: 'right',
           // },
+          {
+            type: 'localeDropdown',
+            position: 'right',
+          },
           {
             href: "https://github.com/Selubi/selubi.github.io",
             position: "right",

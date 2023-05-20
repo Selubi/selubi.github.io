@@ -3,8 +3,11 @@
 install:
 	yarn install --frozen-lockfile
 
-serve:
+serve-en:
 	yarn run start
+
+serve-ja:
+	yarn run start --locale ja
 
 build:
 	yarn build
