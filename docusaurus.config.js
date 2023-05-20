@@ -96,47 +96,22 @@ const config = {
       footer: {
         style: 'dark',
         links: [
+
           {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Tutorial',
-                to: '/docs/intro',
-              },
-            ],
+            label: 'GitHub',
+            href: 'https://github.com/Selubi',
           },
           {
-            title: 'Community',
-            items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
-              },
-            ],
+            label: 'LinkedIn',
+            href: 'https://www.linkedin.com/in/selubi/',
           },
           {
-            title: 'More',
-            items: [
-              {
-                label: 'Blog',
-                to: '/blog',
-              },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
-              },
-            ],
+            label: 'Email: contact@selubi.tech',
+            href: 'mailto:contact@selubi.tech',
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `May the information provided on this site make your day easier.
+        <br> Copyright © ${new Date().getFullYear()} Gregorius Bryan.`,
       },
       prism: {
         theme: lightCodeTheme,
