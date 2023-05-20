@@ -1,5 +1,5 @@
 install:
-	yarn install
+	yarn install --frozen-lockfile
 
 serve:
 	yarn run start
