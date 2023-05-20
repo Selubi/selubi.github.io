@@ -64,23 +64,32 @@ const config = {
       // Replace with your project's social card
       image: 'img/social-card.jpg',
       navbar: {
-        title: 'selubi.tech',
+        // title: 'selubi.tech',
         logo: {
           alt: 'selubi.tech logo',
-          src: 'img/logo.svg',
+          src: 'img/logo-light.png',
+          srcDark: 'img/logo-dark.png',
+          href: 'https://www.selubi.tech/',
+
         },
         items: [
+          // {
+          //   type: 'docSidebar',
+          //   sidebarId: 'tutorialSidebar',
+          //   position: 'left',
+          //   label: 'Tutorial',
+          // },
+          // {to: '/blog', label: 'Blog', position: 'left'},
+          // {
+          //   href: 'https://github.com/Selubi/selubi.github.io',
+          //   label: 'GitHub',
+          //   position: 'right',
+          // },
           {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
-            position: 'left',
-            label: 'Tutorial',
-          },
-          {to: '/blog', label: 'Blog', position: 'left'},
-          {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
-            position: 'right',
+            href: "https://github.com/Selubi/selubi.github.io",
+            position: "right",
+            className: "header-github-link",
+            "aria-label": "GitHub repository",
           },
         ],
       },
