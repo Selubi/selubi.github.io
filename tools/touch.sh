@@ -1,18 +1,23 @@
 #!/bin/bash
 # Makes a file in both locales
+# Creates the nesting folder if it doesn't exist
+# usage: ./tools/touch.sh <PATH_TO_CREATE>
 
-EN_FOLDER="./docs"
-JA_FOLDER="./i18n/ja/docusaurus-plugin-content-docs/current"
+source ./tools/config.sh
+
+if [ $# -ne 1 ]; then
+    echo "Error: Invalid number of arguments. Pass a path to create."
+    echo "usage: ./tools/touch.sh <PATH_TO_CREATE>"
+    echo "usage: make touch target=<PATH_TO_CREATE>"
+    exit 1
+fi
+
 TO_CREATE=$1
 
-# Create the folder structure in english locale
-mkdir -p "$EN_FOLDER/$(dirname "$TO_CREATE")"
+for folder in "${FOLDERS[@]}"; do
+    # Create the folder structure in each locale
+   mkdir -p "$folder/$(dirname "$TO_CREATE")"
+   # Create the file in each locale
+   touch "$folder/$TO_CREATE"
+done
 
-# Create the folder structure in japanese locale
-mkdir -p "$JA_FOLDER/$(dirname "$TO_CREATE")"
-
-# Create the file in english locale
-touch "$EN_FOLDER/$TO_CREATE"
-
-# Create the file in japanese locale
-touch "$JA_FOLDER/$TO_CREATE"

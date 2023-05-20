@@ -1,12 +1,19 @@
 #!/bin/bash
-# Makes a file in both locales
+# Deletes a file/folder in both locales
+# usage: ./tools/rm.sh <PATH_TO_DELETE>
 
-EN_FOLDER="./docs"
-JA_FOLDER="./i18n/ja/docusaurus-plugin-content-docs/current"
+source ./tools/config.sh
+
+if [ $# -ne 1 ]; then
+    echo "Error: Invalid number of arguments. Pass a path to delete."
+    echo "usage: ./tools/rm.sh <PATH_TO_DELETE>"
+    echo "usage: make rm target=<PATH_TO_DELETE>"
+    exit 1
+fi
+
 TO_DELETE=$1
 
-# Create the file in english locale
-rm -rf "$EN_FOLDER/$TO_DELETE"
-
-# Create the file in japanese locale
-rm -rf "$JA_FOLDER/$TO_DELETE"
+for folder in "${FOLDERS[@]}"; do
+   # Delete the file/folder in each locale
+   rm -rf "$folder/$TO_DELETE"
+done
