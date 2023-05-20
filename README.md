@@ -25,3 +25,5 @@ The build folder is `./build`
 make build
 ```
 
+# Resources
+[Docusaurus' doncusaurus.config.js](https://github.com/facebook/docusaurus/blob/main/website/docusaurus.config.js)
