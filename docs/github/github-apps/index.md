@@ -6,17 +6,17 @@ tags:
   - GitHub Apps
 ---
 
-After reading this post we should be able to:
+After reading this post, we should be able to:
 
 1. Understand the concept of GitHub Apps.
-2. Create, install and setup GitHub Apps.
-3. Interact with GitHub REST API as GitHub Apps with octokit SDK.
+2. Create, install, and configure GitHub Apps.
+3. Interact with GitHub REST API as GitHub Apps with Octokit SDK.
 
 ## GitHub Apps Crash Course
 
-### What is GitHub Apps?
+### What are GitHub Apps?
 
-[GitHub Apps](https://docs.github.com/en/apps) is an entity that can perform actions on GitHub. My usecase for it is mainly to call [GitHub REST API](https://docs.github.com/en/rest). Generally, any operations that we want to do with [PAT (Personal Access Token)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) should be done with GitHub Apps instead.
+[GitHub Apps](https://docs.github.com/en/apps) is an entity that can perform actions on GitHub. My use-case is mainly to call [GitHub REST API](https://docs.github.com/en/rest). Generally, any operations that we want to do with [PAT (Personal Access Token)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) should be done with GitHub Apps instead.
 
 "_GitHub Apps are independent actors within GitHub. A GitHub App acts on its own behalf, which means that you don't need to maintain a bot or service account as a separate user. _" - [Official Documentation](https://docs.github.com/en/apps/creating-github-apps/setting-up-a-github-app/about-creating-github-apps)
 
@@ -28,19 +28,19 @@ We can create a GitHub app by going to `Settings > Developer settings > GitHub A
 
 We can install an existing GitHub App by going to `Settings > Developer settings > GitHub Apps > YOUR_APP > Install App`. **GitHub App installs to either an account or organization, not a specific repository**.
 
-After installing, we can grant the GitHub App Installation access to all or select repositories that the account/organization it was installed has access to. We can do this via `Settings > Integrations > Application > INSTALLED_APP` on each account/organization.
+After installing, we can grant the GitHub App Installation access to all or select repositories that the account/organization it was installed has access. We can do this via `Settings > Integrations > Application > INSTALLED_APP` on each account/organization.
 
 > Notice that the term **GitHub App** is differentiated from **GitHub App Installation**. **GitHub App Installation** Refers to the installation instance of a **GitHub App** on an account or organization.
 
 ### Permission
 
-We can give GitHub Apps fine-grained permission during creation or after it via `Settings > Developer settings > GitHub Apps > YOUR_APP > Permissions & Events`. **The permission you give to a GitHub App is shared across all installation of the app.**
+We can give GitHub Apps fine-grained permission during creation or after it via `Settings > Developer settings > GitHub Apps > YOUR_APP > Permissions & Events`. **The permission you give to a GitHub App is shared across all installations of the app.**
 
-When you change the permission of a GitHub App, all organization and accounts it is installed to will be notified and asked for review. When the corresponsing account/organization agrees, the new permissions will finally take effect. The review can be accessed at `Settings > Integrations > Application > INSTALLED_APP`.
+When you change the permission of a GitHub App, all organizations and accounts it is installed to will be notified and asked to review. The review can be accessed at `Settings > Integrations > Application > INSTALLED_APP`. The new permissions will finally take effect when the corresponding account/organization agrees.
 
 ## Interacting with GitHub REST API as GitHub Apps with Octokit.js SDK
 
-We can interact with [GitHub REST API](https://docs.github.com/en/rest) that has `Works with GitHub Apps` written in it with GitHub Apps. Here, we will use [Octokit.js SDK](https://github.com/octokit/octokit.js) to authenticate as the app, and interact with the REST API. Generally, we want to call the REST API as a GitHub App Installation.
+We can interact with [GitHub REST API](https://docs.github.com/en/rest) that has `Works with GitHub Apps` written in it with GitHub Apps. Here, we will use [Octokit.js SDK](https://github.com/octokit/octokit.js) to authenticate as the app and interact with the REST API. Generally, we want to call the REST API as a GitHub App Installation.
 
 ### Preparation
 
@@ -58,7 +58,7 @@ We also need the following:
 
 ### Authenticating as a GitHub App Installation
 
-Here is the boilerplate code to authenticate as a GitHub App Installation. Explanation is written below the code.
+Here is the boilerplate code to authenticate as a GitHub App Installation. The explanation is written below the code.
 
 ```javascript showLineNumbers
 const jwt = require("jsonwebtoken");
@@ -123,23 +123,25 @@ async function main() {
 main();
 ```
 
-To authenticate as a GitHub App Installation, we first need to get the installation ID. The steps to do that:
+To authenticate as a GitHub App Installation, we must first get the installation ID. The steps to do that:
 
-1. [Generate JWT Token](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-json-web-token-jwt-for-a-github-app) to authenticate as a github app. `generateJwtToken()`
+1. [Generate JWT Token](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-json-web-token-jwt-for-a-github-app) to authenticate as a GitHub app. `generateJwtToken()`
 2. Call `GET /users/install_target/installation` for user installation or `GET /orgs/install_target/installation` for org installation. Change line 39 accordingly.
 
-With the installation ID in hand, we can now authenticate as the GitHub App Installation as in line 57. We can use this class to call GitHub REST API as GitHub Apps Installation now.
+With the installation ID, we can now authenticate as the GitHub App Installation, as in line 57. We can now use this class to call GitHub REST API as GitHub Apps Installation.
 
 ### Calling the REST API
 
-Having authenticated as a GitHub Apps Installation, now we can call [GitHub REST API available for GitHub Apps](https://docs.github.com/en/rest/overview/endpoints-available-for-github-apps). Make sure the app has [permission to call the endpoint](https://docs.github.com/en/rest/overview/permissions-required-for-github-apps).
+Having authenticated as a GitHub Apps Installation, we can now call [GitHub REST API available for GitHub Apps](https://docs.github.com/en/rest/overview/endpoints-available-for-github-apps). Ensure the app has [permission to call the endpoint](https://docs.github.com/en/rest/overview/permissions-required-for-github-apps).
 
-Here is an example code to call the GitHub REST API to list branches in a certain repository.
+Here is an example code to call the [API to list branches in a particular repository](https://docs.github.com/en/rest/branches/branches#list-branches).
 
 ```javascript showLineNumbers
-response = await octokit.request(`GET /repos/{OWNER}/{REPO}/branches`, {
-  owner: "OWNER",
-  repo: "REPO",
+const OWNER = "<repo owner>";
+const REPO = "<repo name>";
+response = await octokit.request(`GET /repos/${OWNER}/${REPO}/branches`, {
+  owner: OWNER,
+  repo: REPO,
 });
 console.log(response);
 ```
