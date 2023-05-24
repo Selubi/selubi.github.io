@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkselubi_tech=self.webpackChunkselubi_tech||[]).push([[121],{8070:e=>{e.exports=JSON.parse('[{"label":"GitHub","permalink":"/ja/tags/git-hub","count":1}]')}}]);
