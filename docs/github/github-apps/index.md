@@ -108,6 +108,7 @@ async function getAppInstallationId() {
 }
 
 async function main() {
+  const APP_INSTALLATION_ID = await getAppInstallationId();
   const app = new App({
     appId: APP_ID,
     privateKey: PRIVATE_KEY,
@@ -115,7 +116,6 @@ async function main() {
       baseUrl: GH_URL,
     }),
   });
-  const APP_INSTALLATION_ID = await getAppInstallationId();
   // octokit below is an authenticated as GitHub App Installation
   const octokit = await app.getInstallationOctokit(APP_INSTALLATION_ID);
 }
@@ -128,6 +128,18 @@ To authenticate as a GitHub App Installation, we first need to get the installat
 1. [Generate JWT Token](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-json-web-token-jwt-for-a-github-app) to authenticate as a github app. `generateJwtToken()`
 2. Call `GET /users/install_target/installation` for user installation or `GET /orgs/install_target/installation` for org installation. Change line 39 accordingly.
 
-With the installation ID in hand, we can now authenticate as the GitHub App Installation as in line 120. We can use this class to call GitHub REST API as GitHub Apps Installation now.
+With the installation ID in hand, we can now authenticate as the GitHub App Installation as in line 57. We can use this class to call GitHub REST API as GitHub Apps Installation now.
 
 ### Calling the REST API
+
+Having authenticated as a GitHub Apps Installation, now we can call [GitHub REST API available for GitHub Apps](https://docs.github.com/en/rest/overview/endpoints-available-for-github-apps). Make sure the app has [permission to call the endpoint](https://docs.github.com/en/rest/overview/permissions-required-for-github-apps).
+
+Here is an example code to call the GitHub REST API to list branches in a certain repository.
+
+```javascript showLineNumbers
+response = await octokit.request(`GET /repos/{OWNER}/{REPO}/branches`, {
+  owner: "OWNER",
+  repo: "REPO",
+});
+console.log(response);
+```
