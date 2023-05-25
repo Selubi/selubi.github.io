@@ -16,9 +16,11 @@ After reading this post, we should be able to:
 
 ### What are GitHub Apps?
 
-[GitHub Apps](https://docs.github.com/en/apps) is an entity that can perform actions on GitHub. My use-case is mainly to call [GitHub REST API](https://docs.github.com/en/rest). Generally, any operations that we want to do with [PAT (Personal Access Token)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) should be done with GitHub Apps instead.
+[GitHub Apps](https://docs.github.com/en/apps) is an entity that can perform actions on GitHub. The main use-case of GitHub Apps is to perform actions in GitHub when an external event occurs. We can authenticate as a GitHub App from anywhere (provided we have the credentials) and interact with GitHub as the GitHub App itself with [GitHub REST API](https://docs.github.com/en/rest). Generally, any operations that we want to do with [PAT (Personal Access Token)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) should be done with GitHub Apps instead.
 
 "_GitHub Apps are independent actors within GitHub. A GitHub App acts on its own behalf, which means that you don't need to maintain a bot or service account as a separate user. _" - [Official Documentation](https://docs.github.com/en/apps/creating-github-apps/setting-up-a-github-app/about-creating-github-apps)
+
+<!-- > GitHub Webhooks on the other hand, is a way for external services to be notified when an event on GitHub occurs. -->
 
 ### Creation
 
