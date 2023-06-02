@@ -11,7 +11,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://blog.selubi.tech',
+  url: 'https://notes.selubi.tech',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -45,6 +45,7 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/Selubi/selubi.github.io/tree/main/',
+          showLastUpdateTime: true,
         },
         blog: false,
         pages: false,
@@ -75,7 +76,7 @@ const config = {
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            sidebarId: 'defaultSidebar',
             position: 'left',
             label: 'Docs',
           },

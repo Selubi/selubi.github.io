@@ -5,7 +5,7 @@ tags:
   - GitHub
   - GitHub Apps
 ---
-
+A crash course on GitHub Apps.
 After reading this post, we should be able to:
 
 1. Understand the concept of GitHub Apps.
