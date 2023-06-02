@@ -21,7 +21,7 @@ You shouldn't. I am a single person on the internet, unless you're the future me
 # Why is this site also available in Japanese?
 Because I am based in Japan, for accessibility of information within Japan and my practice so I don't forget Japanese, I also made the site accessible in Japanese. I don't want to spend my whole weekend translating; it's a very intensive task. Instead, I will throw the English text I wrote and throw it to [DeepL Translate](https://www.deepl.com/en/translator) and edit it. How intensive the edit is will depend on the post, but I will properly check relevant links and terms.
 
-For reference, here is this post translated as is straight from DeepL. You can compare it with the [Japanese version of this post](notes.selubi.tech/ja/).
+For reference, here is this post translated as is straight from DeepL. You can compare it with the [Japanese version of this post](https://notes.selubi.tech/ja/).
 
 ```
 selubi.techについて
