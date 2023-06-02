@@ -1,28 +1,27 @@
 ---
 id: home
-title: About selubi.tech
+title: selubi.techについて
 slug: /
 ---
-A System Infrastructure Engineer's notes.
+とあるインフラエンジニアのメモ集約サイト。
 
-# What is this site?
-Hi, welcome. This website is a collection of notes of mine, A single source of truth of my knowledge, a more-structured blog, if you will. I created this site to document things I encountered, be they problems, concepts, or scattered information across the web.
+# このサイトって何？
+よく、いらっしゃいました。このサイトは、私のメモの集約であり、私の信頼できる唯一の情報源であり、普段のブログより構造化された私ブログでもあります。ここには、過去の私が遭遇した問題や、新しい概念の学び、あるいはウェブ上に散在された有用な情報などが記録されています。
 
-All this is in hopes that when I reference things I encountered, I can just come back to this site and solve the issue instead of wasting another day or two fumbling with the same problems again. As such, this site is structured and written with the convenience of future me. Sometimes the information might be very detailed; other times, it might have many pre-requisite details to understand.
+このサイトは将来の自分が参照しやすいように構成され、書かれています。ときには細かくて優しい書き方で、ときには前提知識が必要とされる書き方で書かれているものあるでしょう。
 
-However, as someone from the programming sphere once said, "Your mind next week is as good as a stranger's mind, so document it the way a stranger would understand." The information on this site should be a starting point of reference, where you can quickly learn the required 20% to start exploring the 80% yourself. It would be my honor if someone else benefitted from the information written on this site, as I have helped save time that would probably be wasted on bug-hunting.
+とはいっても、情報業界の仙人が言う通り、「来週のあなたの思考や記憶は、他人の思考や記憶と同じ。知らない人が理解できるようなドキュメントを作りなさい」と。そのため、ある知識の80％を自らで探求できるための必要な20％を素早く習得するような参考資料を作るのはこのサイトの目的です。ここ書かれた情報が誰かに役に立てたら幸いです。
 
-# Who are you?
-My name is Gregorius Bryan; I go by Bryan, Greg, or Selubi on the internet. I am a System Infrastructure Engineer at [Rakuten](https://global.rakuten.com/corp/). I am in a unique environment where I can learn various technology fields. At this job, there's a very high chance that the next project I do requires an entirely different skillset/stack from the previous one. As such, while it provides an excellent learning opportunity, I must adequately document it to avoid forgetting it by the next project.
+# で、君は誰？
+私の名前はグレゴリウスブライアンです。ブライアン、もしくはインターネット上ではセルビというあだ名で活動しています。[楽天](https://corp.rakuten.co.jp/about/)のインフラエンジニアとして務めていて、様々な技術分野を学べるとても恵まれた環境で働いています。仕事では、次のプロジェクトと、前のプロジェクトと全く違うスキルセット／技術スタックが使われる可能性が非常に高いです。そのため、素晴らしい学習環境である半面、次のプロジェクト以降でも思い出せるよう、十分なメモを作らなければなりません。
 
-# Why should I trust you?
-You shouldn't. I am a single person on the internet, unless you're the future me, treat it like so. As with everything on the internet, always cross-check everything you read on this site. Think of it like asking Chat GPT a question. The answers from Chat GPT provide a good starting point for knowledge, but it sometimes spits out a wrong/outdated answer. Even if the information is correct, you must almost always tweak it to your use case.
+# 信用していいの？
+私はたったインターネット上他人です。これを読んでいる人が未来の自分でない限り、そのように扱ってください。インターネット上のあらゆるものと同様に、このサイトで得た情報は再度自分で確認してください。Chat GPTに質問することと同じようなものだと考えれば分かりやすいかもしれません。Chat GPTから得られた回答は、知識の出発点となりますが、時には間違った／古い回答が出ることもあります。たとえその情報が正しくても、ほとんどの場合、自分のユースケースに合わせて微調整する必要があります。
 
-# Why is this site also available in Japanese?
-Because I am based in Japan, for accessibility of information within Japan and my practice so I don't forget Japanese, I also made the site accessible in Japanese. I don't want to spend my whole weekend translating; it's a very intensive task. Instead, I will throw the English text I wrote and throw it to [DeepL Translate](https://www.deepl.com/en/translator) and edit it. How intensive the edit is will depend on the post, but I will properly check relevant links and terms.
+# 英語はわかりますが、このサイトなぜ日本語にも書かれているのか？
+私の活動拠点は日本です。日本国内の情報のリーチと、日本語を忘れないための練習のために、このサイトも日本語版も作りました。しかしながら、週末全体を翻訳することに費やすのは大変な作業です。その代わりに、私が書いた英文を[DeepL Translate](https://www.deepl.com/en/translator)に投げて、編集するつもりです。どの程度集中的に編集するかは投稿によりますが、関連するリンクや用語はきちんとチェックするつもりです。
 
-For reference, here is this post translated as is straight from DeepL. You can compare it with the [Japanese version of this post](notes.selubi.tech/ja/).
-
+参照のため、[この文章の英語版](notes.selubi.tech)をDeepL投げて得られた出力そのままはこちらです。
 ```
 selubi.techについて
 システムインフラエンジニアのメモです。
