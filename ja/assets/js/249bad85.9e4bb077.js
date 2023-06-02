@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkselubi_tech=self.webpackChunkselubi_tech||[]).push([[220],{5611:s=>{s.exports=JSON.parse('{"label":"GitHub Apps","permalink":"/ja/tags/git-hub-apps","allTagsPath":"/ja/tags","count":1,"items":[{"id":"github/github-apps/gh-apps-index","title":"GitHub Apps","description":"A crash course on GitHub Apps.","permalink":"/ja/github/github-apps/"}]}')}}]);
