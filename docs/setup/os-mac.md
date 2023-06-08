@@ -45,7 +45,7 @@ We install everything with Homebrew for easier app management and cleanup.
 3. Add homebrew to bash login profile
 
    ```bash
-    echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> ~/.profile
+   echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> ~/.profile
    eval "$(/opt/homebrew/bin/brew shellenv)"
    which brew # Check path of homebrew, if empty its not registered.
    ```
@@ -82,7 +82,7 @@ We install everything with Homebrew for easier app management and cleanup.
   ```bash
   brew install --cask visual-studio-code
   ```
-  More at [Visual Studio Code Setup](app-vscode.md)
+  Do [Visual Studio Code Setup](app-vscode.md) after.
 - [Fira Code](https://github.com/tonsky/FiraCode) - Font
   ```bash
   brew tap homebrew/cask-fonts
@@ -122,4 +122,4 @@ We will also use the brew's zsh instead of the default one
    which brew # Homebrew path
    ```
 
-More at [Shell Setup (Z Shell)](./env-zsh.md)
+Do [Shell Setup (Z Shell)](./env-zsh.md) after.
