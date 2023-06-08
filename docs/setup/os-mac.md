@@ -11,7 +11,7 @@ My setup settings on Mac OS (Ventura). From a fresh Mac OS installation.
 
 This setup is done at Macbook Pro 14" M2.
 
-# System Related Settings
+## System Related Settings
 -  Enable dark mode at `System Settings > Appearance`
 -  Setup Japanese <-> English input switching
     - Enable Caps Lock key to [switch between Japanese input and English](https://support.apple.com/en-euro/guide/mac-help/mchl84525d76/mac). `System Settings > Language input methods > All Input Sources > Use the Caps Lock key to switch to and from ABC`
@@ -25,10 +25,11 @@ This setup is done at Macbook Pro 14" M2.
         - Option (⌥) key -> ⌥ Option
         - Command (⌘) key -> ^ Control
         - Globe key -> ⌘ Command
+- Add Home folder to Finder `Finder > Settings > Sidebar`
 
-# Applications Setup
+## Applications Setup
 We install everything with Homebrew for easier app management and cleanup.
-## Install  Xcode CLI and Homebrew
+### Install  Xcode CLI and Homebrew
 1. Install Xcode CLI 
     ```bash
     xcode-select --install
@@ -37,15 +38,15 @@ We install everything with Homebrew for easier app management and cleanup.
     ```bash
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     ```
-3. Add homebrew to bash profile
+3. Add homebrew to bash login profile
     ```bash
     (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> ~/.profile
     eval "$(/opt/homebrew/bin/brew shellenv)"
     which brew # Check path of homebrew, if empty its not registered.
     ```
 
-# Development Environment Setup
-## Setup [Z shell (zsh)](https://zsh.sourceforge.io/)
+## Development Environment Setup
+### Setup [Z shell (zsh)](https://zsh.sourceforge.io/)
 We will also use the brew's zsh instead of the default one
 1. Install zsh
     ```bash
@@ -60,11 +61,11 @@ We will also use the brew's zsh instead of the default one
     ```bash
     chsh -s "$(which zsh)"
     ```
-4. Readd brew to profile which is now `.zprofile` 
+4. Readd brew to login profile which is now `.zprofile` 
     ```bash
     echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> ~/.zprofile
     ```
-5. Re-login the Mac OS, launch terminal and check zsh and brew settings
+5. Re-login to Mac OS, launch terminal and check zsh and brew settings
     ```bash
     echo $SHELL # Current shell path
     which brew # Homebrew path
