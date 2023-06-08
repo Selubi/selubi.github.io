@@ -43,8 +43,9 @@ We install everything with Homebrew for easier app management and cleanup.
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    ```
 3. Add homebrew to bash login profile
+
    ```bash
-   (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> ~/.profile
+    echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> ~/.profile
    eval "$(/opt/homebrew/bin/brew shellenv)"
    which brew # Check path of homebrew, if empty its not registered.
    ```
@@ -87,10 +88,14 @@ We install everything with Homebrew for easier app management and cleanup.
   brew tap homebrew/cask-fonts
   brew install --cask font-fira-code
   ```
+- [iTerm2](https://iterm2.com/) - Replacement Terminal
+  ```bash
+  brew install --cask iterm2
+  ```
 
 ## Development Environment Setup
 
-### Setup [Z shell (zsh)](https://zsh.sourceforge.io/)
+### Setup [Z Shell (zsh)](https://zsh.sourceforge.io/) as the default shell
 
 We will also use the brew's zsh instead of the default one
 
@@ -117,4 +122,4 @@ We will also use the brew's zsh instead of the default one
    which brew # Homebrew path
    ```
 
-### SSH Settings
+More at [Shell Setup (Z Shell)](./env-zsh.md)
