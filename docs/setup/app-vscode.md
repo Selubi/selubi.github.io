@@ -18,12 +18,12 @@ My setup for Visual Studio Code. Note that I have slight red-green color blindne
 
 ## Setting File
 
-```json:settings.json
+```json title="settings.json"
 {
-    "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
-    "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
-    "editor.fontFamily": "Fira Code",
-    "editor.fontLigatures": false,
-    "editor.formatOnSave": true
+  "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": false,
+  "editor.formatOnSave": true
 }
 ```
