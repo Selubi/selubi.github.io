@@ -8,7 +8,7 @@ tags:
   - Python
 ---
 
-Setup for python dev env. We will use [pyenv](https://github.com/pyenv/pyenv/) (version control) + venv instead of conda.
+Setup for python development environment. We will use [pyenv](https://github.com/pyenv/pyenv/) (version control) + [venv](https://docs.python.org/3/library/venv.html) instead of conda.
 
 ## Setup pyenv
 
@@ -50,11 +50,11 @@ This section is for the installation of pyenv itself. It should be only done onc
 
 1. Relogin / restart shell.
 
-1. Check installation and version
+1. Verify installation
 
    ```bash
    which python # Should output ~/.pyenv/shims/python instead of /bin/python
-   python --version # Should output installed global python version
+   python --version # Should output previously set global python version
    ```
 
 ## Setup project environment
@@ -84,7 +84,7 @@ To start, make sure you're in the project directory.
    echo ".venv" >> .gitignore # Add it to .gitignore
    ```
 
-1. Activate the venv and check the path
+1. Activate the venv and verify
 
    ```bash
    source .venv/bin/activate
@@ -93,13 +93,13 @@ To start, make sure you're in the project directory.
 
 1. Upgrade pip
 
-   ```
+   ```bash
    python -m pip install --upgrade pip
    ```
 
 1. If its an existing project that has `requirements.txt`, install the requirements. (optional)
-   ```
-   pip install -r requirements.txt
+   ```bash
+   python -m pip install -r requirements.txt
    ```
 
 Extras:
