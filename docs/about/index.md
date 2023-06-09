@@ -1,6 +1,7 @@
 ---
 id: home
 title: About selubi.tech
+sidebar_label: About
 slug: /
 ---
 
