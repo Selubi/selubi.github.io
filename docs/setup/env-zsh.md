@@ -1,6 +1,7 @@
 ---
 id: setup-env-zsh
 title: Shell Setup (Z Shell)
+sidebar_label: Z Shell
 tags:
   - Setup
   - Environment
