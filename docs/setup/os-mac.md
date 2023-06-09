@@ -1,6 +1,7 @@
 ---
 id: setup-os-mac
 title: Mac OS Setup (Ventura)
+sidebar_label: Mac OS
 tags:
   - Setup
   - Operating System
