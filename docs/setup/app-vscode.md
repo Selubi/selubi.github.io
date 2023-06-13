@@ -16,6 +16,7 @@ My setup for Visual Studio Code. Note that I have slight red-green color blindne
 - [Material Icon Theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme) - Icon Pack
 - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) - Formatter
 - [YAML](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) - YAML Language Support
+- [shell-format](https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format) - Shell Script Formatter
 
 ## Setting File
 
