@@ -24,8 +24,8 @@ My setup for Visual Studio Code. Note that I have slight red-green color blindne
 {
   "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
   "workbench.iconTheme": "material-icon-theme",
-  "editor.fontFamily": "Fira Code",
-  "editor.fontLigatures": false,
+  "editor.fontFamily": "FiraCode Nerd Font",
+  "editor.fontLigatures": true,
   "editor.formatOnSave": true
 }
 ```

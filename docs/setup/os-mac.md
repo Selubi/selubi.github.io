@@ -28,6 +28,7 @@ This setup is done at Macbook Pro 14" M2.
     - Command (⌘) key -> ^ Control
     - Globe key -> ⌘ Command
 - Add Home folder to Finder `Finder > Settings > Sidebar`
+- Show menu bar even when on full screen `Settings > Desktop & Dock > Automatically hide and show the menu bar > Never`
 
 ## Applications Setup
 
@@ -84,10 +85,10 @@ We install everything with Homebrew for easier app management and cleanup.
   brew install --cask visual-studio-code
   ```
   Do [Visual Studio Code Setup](app-vscode.md) after.
-- [Fira Code](https://github.com/tonsky/FiraCode) - Font
+- [Fira Code Nerd Font](https://github.com/tonsky/FiraCode) - Font
   ```bash
   brew tap homebrew/cask-fonts
-  brew install --cask font-fira-code
+  brew install --cask font-fira-code-nerd-font
   ```
 - [iTerm2](https://iterm2.com/) - Replacement Terminal
   ```bash
