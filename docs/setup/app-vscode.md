@@ -20,12 +20,4 @@ My setup for Visual Studio Code. Note that I have slight red-green color blindne
 
 ## Setting File
 
-```json title="settings.json"
-{
-  "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
-  "workbench.iconTheme": "material-icon-theme",
-  "editor.fontFamily": "FiraCode Nerd Font",
-  "editor.fontLigatures": true,
-  "editor.formatOnSave": true
-}
-```
+Copy all the configurations file at [VS Code Configuration Files](./config/vscode.md)

@@ -22,11 +22,11 @@ This setup is done at Macbook Pro 14" M2.
   - To input weird inputs such as half-width Katakana or full-width Romaji, type with hiragana input and scroll up during the conversion.
 - Setup keyboard
   - Change modifier keys at `System Settings > Keyboard > Keyboard Shortcuts > Modifier Keys`
-    - Caps Lock -> Caps Lock
+    - Caps Lock (󰘲)-> 󰘲 Caps Lock
     - Control (^) key -> ⌘ Command
     - Option (⌥) key -> ⌥ Option
     - Command (⌘) key -> ^ Control
-    - Globe key -> ⌘ Command
+    - Globe key () -> ⌘ Command
 - Add Home folder to Finder `Finder > Settings > Sidebar`
 - Show menu bar even when on full screen `Settings > Desktop & Dock > Automatically hide and show the menu bar > Never`
 
@@ -64,36 +64,46 @@ We install everything with Homebrew for easier app management and cleanup.
   ```
   Open via `Finder > Applications > Right Click > Open` when opening for the first time.
 - [Arc](https://arc.net/) - Browser
+
   ```bash
   brew install --cask arc
   ```
+
   Custom shortcut
-  - Go back: ⌘D
-  - Go forward: ⌘⇧D
-  - Add Split View: ⌘E
+
+  - Go back: ⌘E
+  - Go forward: ⌘⇧E
+  - Add Split View: ⌘D
   - New Little Arc Window: ⌘N
   - New Window: ⌘⇧N
   - New Incognito Window: ⌘^⇧N
   - Open Extension: Removed
   - Pin/Unpin Tab: Removed
+
 - [Rectangle](https://rectangleapp.com/) - Window snapping
   ```bash
   brew install --cask rectangle
   ```
-- [Visual Studio Code](https://code.visualstudio.com/) - Code editor
-  ```bash
-  brew install --cask visual-studio-code
-  ```
-  Do [Visual Studio Code Setup](app-vscode.md) after.
-- [Fira Code Nerd Font](https://github.com/tonsky/FiraCode) - Font
+- [Fira Code Nerd Font](https://www.nerdfonts.com/font-downloads) - Font
+
   ```bash
   brew tap homebrew/cask-fonts
   brew install --cask font-fira-code-nerd-font
   ```
+
+- [Visual Studio Code](https://code.visualstudio.com/) - Code editor
+
+  ```bash
+  brew install --cask visual-studio-code
+  ```
+
+  Do [Visual Studio Code Setup](app-vscode.md) after.
+
 - [iTerm2](https://iterm2.com/) - Replacement Terminal
   ```bash
   brew install --cask iterm2
   ```
+  Get the [profile.json](./config/iterm.md) and import it via `iTerm2 > Settings > Profiles > Other Actions > Import JSON Profiles...`
 
 ## Development Environment Setup
 
