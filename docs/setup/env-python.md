@@ -109,3 +109,7 @@ Extras:
   ```bash
   python -m pip freeze > requirements.txt
   ```
+- Update all outdated packages
+  ```bash
+  pip list -o | tail -n +3 | awk '{ print $1 }' | xargs pip install -U
+  ```
