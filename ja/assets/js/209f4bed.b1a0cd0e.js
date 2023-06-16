@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkselubi_tech=self.webpackChunkselubi_tech||[]).push([[955],{7400:e=>{e.exports=JSON.parse('{"label":"VS Code","permalink":"/ja/tags/vs-code","allTagsPath":"/ja/tags","count":1,"items":[{"id":"setup/config/setup-files-vscode","title":"iTerm Config Files","description":"","permalink":"/ja/setup/config/setup-files-vscode"}]}')}}]);
