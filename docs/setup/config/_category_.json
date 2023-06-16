@@ -3,5 +3,7 @@
   "link": {
     "type": "generated-index",
     "description": "A collection of configuration files"
-  }
+  },
+  "position": 100
+  
 }

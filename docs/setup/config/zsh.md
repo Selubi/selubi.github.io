@@ -1,7 +1,7 @@
 ---
 id: setup-files-zsh
-title: Z Shell Config Files
-sidebar_label: Zsh
+title: Z Shell Config Files (Mac OS)
+sidebar_label: Z Shell
 tags:
   - Setup
   - Environment
