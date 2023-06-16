@@ -2,13 +2,14 @@
 id: setup-env-zsh
 title: Shell Setup (Z Shell)
 sidebar_label: Z Shell
+sidebar_position: 1
 tags:
   - Setup
   - Environment
   - Z Shell
 ---
 
-My shell setup. I am using [Z Shell (Zsh)](https://zsh.sourceforge.io/), but this documentation also includes non-zsh-exclusive general shell setup such as SSH.
+My shell setup. I am using [Z Shell (Zsh)](https://zsh.sourceforge.io/), but this documentation may also include non-zsh-exclusive general shell setup.
 
 ## Setup
 

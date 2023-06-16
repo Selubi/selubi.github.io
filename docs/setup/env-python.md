@@ -2,6 +2,7 @@
 id: setup-env-python
 title: Python Environment Setup with pyenv and venv
 sidebar_label: Python
+sidebar_position: 1
 tags:
   - Setup
   - Environment

@@ -2,6 +2,7 @@
 id: setup-app-vscode
 title: Visual Studio Code Setup
 sidebar_label: Visual Studio Code
+sidebar_position: 1
 tags:
   - Setup
   - Application
