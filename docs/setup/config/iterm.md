@@ -1,7 +1,7 @@
 ---
-id: setup-files-vscode
-title: iTerm Config Files
-sidebar_label: iTerm
+id: setup-files-iterm
+title: iTerm2 Config Files
+sidebar_label: iTerm2
 tags:
   - Setup
   - Operating Systen
