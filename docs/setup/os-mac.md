@@ -30,7 +30,7 @@ This setup is done at Macbook Pro 14" M2.
     - Globe key () -> ⌘ Command
 - Add Home folder to Finder `Finder > Settings > Sidebar`
 - Show menu bar even when on full screen `Settings > Desktop & Dock > Automatically hide and show the menu bar > Never`
-
+- Remove recent applications from dock. Disable `Settings > Desktop & Dock > Show recent applications in Dock`.
 ## Applications Setup
 
 We install everything with Homebrew for easier app management and cleanup.
