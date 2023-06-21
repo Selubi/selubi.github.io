@@ -1,6 +1,6 @@
 # Overview
 
-This repository is the base repository for [blog.selubi.tech](https://blog.selubi.tech/).
+This repository is the base repository for [notes.selubi.tech](https://notes.selubi.tech/).
 For more information, visit the website itself.
 
 # Operations
