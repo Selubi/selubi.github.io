@@ -31,6 +31,7 @@ This setup is done at Macbook Pro 14" M2.
 - Add Home folder to Finder `Finder > Settings > Sidebar`
 - Show menu bar even when on full screen `Settings > Desktop & Dock > Automatically hide and show the menu bar > Never`
 - Remove recent applications from dock. Disable `Settings > Desktop & Dock > Show recent applications in Dock`.
+
 ## Applications Setup
 
 We install everything with Homebrew for easier app management and cleanup.
@@ -112,6 +113,7 @@ We install everything with Homebrew for easier app management and cleanup.
   ```bash
   brew install --cask raycast
   ```
+  Get the [config files](https://github.com/Selubi/selubi.github.io/blob/main/config/Raycast.rayconfig) and import it.
 
 ## Development Environment Setup
 
