@@ -101,10 +101,17 @@ We install everything with Homebrew for easier app management and cleanup.
   Do [Visual Studio Code Setup](app-vscode.md) after.
 
 - [iTerm2](https://iterm2.com/) - Replacement Terminal
+
   ```bash
   brew install --cask iterm2
   ```
+
   Get the [profile.json](./config/iterm.md) and import it via `iTerm2 > Settings > Profiles > Other Actions > Import JSON Profiles...`
+
+- [Raycast](https://www.raycast.com/) - Launcher
+  ```bash
+  brew install --cask raycast
+  ```
 
 ## Development Environment Setup
 
