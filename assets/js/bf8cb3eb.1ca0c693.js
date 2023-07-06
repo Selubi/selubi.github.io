@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkselubi_tech=self.webpackChunkselubi_tech||[]).push([[645],{6922:e=>{e.exports=JSON.parse('{"label":"Linux","permalink":"/tags/linux","allTagsPath":"/tags","count":1,"items":[{"id":"linux/boot/linux-boot-bios","title":"BIOS and UEFI","description":"Test","permalink":"/linux/boot/linux-boot-bios"}]}')}}]);
