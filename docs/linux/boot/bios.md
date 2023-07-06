@@ -23,7 +23,7 @@ We can usually access BIOS/UEFI by pressing the `delete` button on the keyboard 
 
 ### Broadly, what is it for?
 
-### Loading and passing the control OS kernel
+#### Loading and passing the control OS kernel
 
 One of the main responsibility of BIOS/UEFI is to load and launch the bootloader and passing control to it (which in turn loads the OS kernel and passes control to it).
 
@@ -61,4 +61,4 @@ To boot with BIOS, we need something called MBR (Master boot record). MBR is a d
 
 Instead of detecting external partitions for the bootloader, BIOS looks for MBR in the first storage device (in the order defined in BIOS config utility). It then loads the first stage of bootloader which in turn calls the second stage. The second stage of the bootloader is responsible for presenting boot options and loading the OS kernel.
 
-Last updated: 6th July 2023
+Last updated: July 6, 2023
