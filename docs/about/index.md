@@ -23,7 +23,7 @@ My name is Gregorius Bryan; I go by Bryan, Greg, or Selubi on the internet. I am
 
 You shouldn't. I am a single person on the internet, unless you're the future me, treat it like so. As with everything on the internet, always cross-check everything you read on this site. Think of it like asking Chat GPT a question. The answers from Chat GPT provide a good starting point for knowledge, but it sometimes spits out a wrong/outdated answer. Even if the information is correct, you must almost always tweak it to your use case.
 
-# Why is this site also available in Japanese?
+<!-- # Why is this site also available in Japanese?
 
 Because I am based in Japan, for accessibility of information within Japan and my practice so I don't forget Japanese, I also made the site accessible in Japanese. I don't want to spend my whole weekend translating; it's a very intensive task. Instead, I will throw the English text I wrote and throw it to [DeepL Translate](https://www.deepl.com/en/translator) and edit it. How intensive the edit is will depend on the post, but I will properly check relevant links and terms.
 
@@ -49,4 +49,4 @@ For reference, here is this post translated as is straight from DeepL. You can c
 私は日本を拠点としているため、日本国内の情報へのアクセシビリティと、日本語を忘れないための練習のために、このサイトも日本語でアクセスできるようにしたのです。週末に翻訳をするのは大変な作業なのでやめておきます。その代わり、書いた英文を[DeepL Translate](https://www.deepl.com/en/translator)に投げて、編集するつもりです。どの程度集中的に編集するかは、その投稿によりますが、関連するリンクや用語はきちんとチェックします。
 
 参考までに、この投稿をそのままDeepLで翻訳したものを紹介します。この投稿の日本語版](https://notes.selubi.tech/ja/)と比較することができます。
-```
+``` -->

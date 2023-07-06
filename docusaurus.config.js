@@ -30,7 +30,7 @@ const config = {
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en','ja'],
+    locales: ['en'],
   },
 
   presets: [
@@ -86,10 +86,10 @@ const config = {
           //   label: 'GitHub',
           //   position: 'right',
           // },
-          {
-            type: 'localeDropdown',
-            position: 'right',
-          },
+          // {
+          //   type: 'localeDropdown',
+          //   position: 'right',
+          // },
           {
             href: "https://github.com/Selubi/selubi.github.io",
             position: "right",
