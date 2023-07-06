@@ -45,7 +45,6 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/Selubi/selubi.github.io/tree/main/',
-          showLastUpdateTime: true,
         },
         blog: false,
         pages: false,
