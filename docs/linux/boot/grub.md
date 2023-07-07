@@ -44,7 +44,7 @@ RHEL (Red Hat Enterprise Linux) used to put `grub.cfg` in the ESP for UEFI based
 
 GRUB checks the [`$prefix` variable](https://www.gnu.org/software/grub/manual/grub/html_node/prefix.html) for the `grub.cfg` location. This is set during the installation of GRUB.
 
-::: note
+:::note
 The `$prefix` variable is for the GRUB command line, not the Linux one.
 :::
 
