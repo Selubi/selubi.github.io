@@ -7,7 +7,7 @@ tags:
   - Linux
 ---
 
-Main source of this article: [LPIC-1 Exam 101 Learning Material: 101.2](https://learning.lpi.org/en/learning-materials/learning-materials/)
+Main source of this document: [LPIC-1 Exam 101 Learning Material: 101.2](https://learning.lpi.org/en/learning-materials/learning-materials/)
 
 ## UEFI and BIOS short overview
 
@@ -61,4 +61,4 @@ To boot with BIOS, we need something called MBR (Master boot record). MBR is a d
 
 Instead of detecting external partitions for the bootloader, BIOS looks for MBR in the first storage device (in the order defined in the BIOS config utility). It then loads the first stage of the bootloader, which in turn calls the second stage. The second stage of the bootloader is responsible for presenting boot options and loading the OS kernel.
 
-Last updated: July 6, 2023
+Last updated: July 7, 2023

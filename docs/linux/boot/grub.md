@@ -7,7 +7,7 @@ tags:
   - Linux
 ---
 
-One of the main sources of this article is the [LPIC-1 Exam 101 Learning Material: 102.2](https://learning.lpi.org/en/learning-materials/learning-materials/).
+One of the main sources of this document is the [LPIC-1 Exam 101 Learning Material: 102.2](https://learning.lpi.org/en/learning-materials/learning-materials/).
 However, particularly for this topic, plenty of scattered information across the internet is used as the source.
 
 ## What is it?
