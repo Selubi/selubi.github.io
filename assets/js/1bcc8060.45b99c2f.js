@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkselubi_tech=self.webpackChunkselubi_tech||[]).push([[779],{6859:e=>{e.exports=JSON.parse('{"label":"VS Code","permalink":"/tags/vs-code","allTagsPath":"/tags","count":1,"items":[{"id":"setup/config/setup-files-vscode","title":"VS Code Config Files","description":"","permalink":"/setup/config/setup-files-vscode"}]}')}}]);
