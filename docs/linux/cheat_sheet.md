@@ -9,14 +9,16 @@ tags:
 
 Notable commands, variables and files for administering linux.
 
+Paths ending with `/` is a directory, and those without it is a file. Example: `~/test` is a file and `~/test/` is a folder.
+
 ## GRUB (Bootloader)
 
 UEFI system and GRUB 2 is assumed in this section.
 
 ### Commands:
 
-- `grub-install` - Installs GRUB to `/boot/efi`. Pass the `--efi-directory` option to install to other directory.
-- `update-grub` - Updates GRUB configuration file (commonly located in `/boot/grub/grub.cfg`) from the definitions in `/etc/default/grub`
+- `grub-install` - Installs GRUB to `/boot/efi/`. Pass the `--efi-directory` option to install to other directory.
+- `update-grub` - Shortcut to the command `grub-mkconfig -o /boot/grub/grub.cfg`. Updates GRUB configuration file (commonly located in `/boot/grub/grub.cfg`) from the definitions in `/etc/default/grub` and `/etc/grub.d/`
 - Press`C` when on GRUB menu screen to access GRUB shell.
 
 ### Variables:
@@ -25,9 +27,9 @@ UEFI system and GRUB 2 is assumed in this section.
 
 ### Files:
 
-- `/boot/efi` - Mount point of ESP (EFI System Partition) containing the actual bootloader UEFI accesses
+- `/boot/efi/` - Mount point of ESP (EFI System Partition) containing the actual bootloader UEFI accesses
 - `/boot/grub/grub.cfg` - Common location for GRUB configuration file. Located in root partition. Do not edit directly, edit `/etc/default/grub` and run `update-grub` instead.
-- `/etc/default/grub.d/` - `update-grub` changes `/boot/grub/grub.cfg` based on this folder. Contents are executed in numerical order. Custom entries are usualy added to `40_custom` file. Example entry is shown below.
+- `/etc/grub.d/` - `update-grub` changes `/boot/grub/grub.cfg` based on this folder. Contents are executed in numerical order. Custom entries are usualy added to `40_custom` file. Example entry is shown below.
   ```
   menuentry "Default OS" {
       set root=(hd0,1)
