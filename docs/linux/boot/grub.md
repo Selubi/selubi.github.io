@@ -58,6 +58,8 @@ In this section, GRUB configuration files are assumed to be located at `/boot/gr
 
 It is not recommended to change the contents of `grub.cfg` directly. Instead, we can edit `/etc/default/grub` and `/etc/grub.d/` and run the `update-grub` command.
 
+`update-grub` is a shortcut to `grub-mkconfig -o /boot/grub/grub.cfg` or something equivalent.
+
 `/etc/default/grub` contains parameters to configure the grub behavior itself. Below is an example `/etc/default/grub`.
 
 ```bash title="/etc/default/grub"
