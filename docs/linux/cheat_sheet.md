@@ -49,10 +49,10 @@ UEFI system and GRUB 2 is assumed in this section.
 
 ### Variables:
 
-- `LD_LIBRARY_PATH` - Colon (`:`) separated set of directories to look for libraries for user configuration. Empty by default.
+- `$LD_LIBRARY_PATH` - Colon (`:`) separated set of directories to look for libraries. User configured. Empty by default.
 
 ### Files:
 
 - `/etc/ld.so.conf.d/` - `ld` (dynamic linker) looks for shared library paths defined in files in this folder.
 
-Last updated: July 20, 2023
+Last updated: July 21, 2023
