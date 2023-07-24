@@ -22,9 +22,9 @@ This setup is done at Macbook Pro 14" M2.
   - Disable all input mode (except Hiragana which is the default) at `System Settings > Language input methods > Japanese - Romaji`
   - To input weird inputs such as half-width Katakana or full-width Romaji, type with hiragana input and scroll up during the conversion.
 - Setup keyboard
-  - Change modifier keys at `System Settings > Keyboard > Keyboard Shortcuts > Modifier Keys`
+  - Change modifier keys at `System Settings > Keyboard > Keyboard Shortcuts > Modifier Keys` (Note: This will be replaced by Karabiner-Elements regardless)
     - Caps Lock (󰘲)-> 󰘲 Caps Lock
-    - Control (^) key -> ⌘ Command
+    - Control (^) key ->  Globe
     - Option (⌥) key -> ⌥ Option
     - Command (⌘) key -> ^ Control
     - Globe key () -> ⌘ Command
@@ -65,6 +65,14 @@ We install everything with Homebrew for easier app management and cleanup.
   brew install --cask mos
   ```
   Open via `Finder > Applications > Right Click > Open` when opening for the first time.
+- [Karabiner-Elements](https://karabiner-elements.pqrs.org/) - Keyboard customizer
+
+  ```bash
+  brew install --cash karabiner-elements
+  ```
+
+  Copy [karabiner.json](./config/karabiner.md) to `~/.config/karabiner/karabiner.json`.
+
 - [Arc](https://arc.net/) - Browser
 
   ```bash
