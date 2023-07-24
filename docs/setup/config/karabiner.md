@@ -19,7 +19,7 @@ In case the below settings doesn't work, here are the modifications:
 - right_command -> left_arrow
 - right_option -> right_arrow
 
-```json title="~/.config/karabiner/karabiner.json
+```json title=~/.config/karabiner/karabiner.json
 {
   "global": {
     "ask_for_confirmation_before_quitting": true,
