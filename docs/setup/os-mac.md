@@ -28,6 +28,12 @@ This setup is done at Macbook Pro 14" M2.
     - Option (⌥) key -> ⌥ Option
     - Command (⌘) key -> ^ Control
     - Globe key () -> ⌘ Command
+  - Disable Control (^) key shortcuts for mission control (to reserve the control key for terminal) `System Settings > Keyboard > Keyboard Shortcuts > Mission Control`.
+    - Disable Mission Control (^↑)
+    - Disable Application windows (^↓)
+    - Disable Move left a space (^←)
+    - Disable Move right a space (^→)
+    - Disable Quick Note (Q)
 - Add Home folder to Finder `Finder > Settings > Sidebar`
 - Show menu bar even when on full screen `Settings > Desktop & Dock > Automatically hide and show the menu bar > Never`
 - Remove recent applications from dock. Disable `Settings > Desktop & Dock > Show recent applications in Dock`.
