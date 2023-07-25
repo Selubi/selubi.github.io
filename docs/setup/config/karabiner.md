@@ -55,31 +55,11 @@ In case the below settings doesn't work, here are the modifications:
           "simple_modifications": [
             {
               "from": {
-                "key_code": "right_shift"
-              },
-              "to": [
-                {
-                  "key_code": "delete_or_backspace"
-                }
-              ]
-            },
-            {
-              "from": {
                 "apple_vendor_top_case_key_code": "keyboard_fn"
               },
               "to": [
                 {
                   "key_code": "left_command"
-                }
-              ]
-            },
-            {
-              "from": {
-                "key_code": "left_control"
-              },
-              "to": [
-                {
-                  "apple_vendor_top_case_key_code": "keyboard_fn"
                 }
               ]
             },
@@ -95,11 +75,21 @@ In case the below settings doesn't work, here are the modifications:
             },
             {
               "from": {
+                "key_code": "left_control"
+              },
+              "to": [
+                {
+                  "apple_vendor_top_case_key_code": "keyboard_fn"
+                }
+              ]
+            },
+            {
+              "from": {
                 "key_code": "right_command"
               },
               "to": [
                 {
-                  "key_code": "left_arrow"
+                  "key_code": "down_arrow"
                 }
               ]
             },
@@ -109,7 +99,17 @@ In case the below settings doesn't work, here are the modifications:
               },
               "to": [
                 {
-                  "key_code": "right_arrow"
+                  "key_code": "up_arrow"
+                }
+              ]
+            },
+            {
+              "from": {
+                "key_code": "right_shift"
+              },
+              "to": [
+                {
+                  "key_code": "delete_or_backspace"
                 }
               ]
             }
