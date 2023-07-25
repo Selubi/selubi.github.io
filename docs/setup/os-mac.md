@@ -34,6 +34,7 @@ This setup is done at Macbook Pro 14" M2.
     - Disable Move left a space (^←)
     - Disable Move right a space (^→)
     - Disable Quick Note (Q)
+- Enable `Settings > Desktop & Dock > Mission Control > When switching to an application, switch to a Space with open windows for the application`. This actually show where the window is when we ⌘Tab, even when the window is full screen.
 - Add Home folder to Finder `Finder > Settings > Sidebar`
 - Show menu bar even when on full screen `Settings > Desktop & Dock > Automatically hide and show the menu bar > Never`
 - Remove recent applications from dock. Disable `Settings > Desktop & Dock > Show recent applications in Dock`.
