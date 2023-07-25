@@ -21,8 +21,10 @@ tags:
     "editor.formatOnSave": true
   },
   "python.formatting.provider": "none",
-  "extensions.ignoreRecommendations": true
+  "extensions.ignoreRecommendations": true,
+  "terminal.external.osxExec": "iTerm.app",
+  "workbench.panel.defaultLocation": "right"
 }
 ```
 
-Last updated: July 10, 2023
+Last updated: July 25, 2023
