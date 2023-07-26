@@ -11,6 +11,19 @@ Notable commands, variables and files for administering linux.
 
 Paths ending with `/` is a directory, and those without it is a file. Example: `~/test` is a file and `~/test/` is a folder.
 
+## Environment Variables
+
+Environment variables are variables accessible by a specific instance of a process, usually within a shell session.
+
+### Commands:
+
+- `VARIABLE=value` - Assigns `value` to `VARIABLE`. If `VARIABLE` already exxists, this overwrites its previous value.
+- `$VARIABLE` - Accesses the value of `VARIABLE`. When a command is executed, `$VARIABLE` is expanded to its values.
+- `echo $VARIABLE` - Displays the value of `VARIABLE`.
+- `set` - Lists all currently set environment variables.
+- `unset VARIABLE` - Removes the environment variable `VARIABLE`.
+- `export VARIABLE` - Makes `VARIABLE` accessible to child processes spawned by the current process. `export VARIABLE=value` is equivalent to `VARIABLE=value && export VARIABLE`.
+
 ## GRUB (Bootloader)
 
 UEFI system and GRUB 2 is assumed in this section.
