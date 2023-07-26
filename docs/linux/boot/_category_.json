@@ -1,8 +1,0 @@
-{
-  "label": "Boot and Initialization",
-  "link": {
-    "type": "generated-index",
-    "description": "A collection of concepts related to boot and initialization of a system. Articles are
-    ordered based on what a system actually does chronologically when you turn on the system"
-  }
-}

@@ -1,8 +1,8 @@
 ---
-id: linux-boot-bios
+id: linux-concept-bios
 title: BIOS and UEFI
 sidebar_label: BIOS and UEFI
-sidebar_position: 1
+sidebar_position: 101
 tags:
   - Linux
 ---

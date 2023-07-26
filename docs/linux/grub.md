@@ -1,8 +1,8 @@
 ---
-id: linux-boot-grub
+id: linux-concept-grub
 title: GRUB Bootloader
 sidebar_label: GRUB Bootloader
-sidebar_position: 2
+sidebar_position: 102
 tags:
   - Linux
 ---
