@@ -67,6 +67,12 @@ When running this command, grub will be installed in the `<DESIRED_DEVICE_PATH>`
 Here, `<DESIRED_BOOT_CONFIGURATION_PATH>` can be a directory in the root partition, such as `/boot/` or a mount directory of a boot partition.
 For example, if we have a boot partition at `/dev/sda1` and want to install GRUB on the same device, we can execute the below command.
 
+```bash
+mkdir /mnt/tmp # Make temporary mount directory
+mount /dev/sda1 /mnt/tmp # Mount boot partition to /mnt/tmp
+grub-install --boot-directory=/mnt/tmp /dev/sda # Install GRUB (EFI Application) to device /dev/sda and configure it to look for settings at the boot partition
+```
+
 ## Configuring GRUB
 
 ### Configuring the behavior of GRUB itself
