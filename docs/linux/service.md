@@ -66,10 +66,10 @@ We can interact with `systemd` with the `systemctl` utility. Here is a list of f
 #### General
 
 - `systemctl list-unit-files` - Lists all available units and show if they are enabled. Pass the option `--type=TYPE` to only show units of `TYPE` type.
-- `systemctl list-unit` - Lists all active units. Pass the option `--type=TYPE` to only show units of `TYPE` type.
+- `systemctl list-units` - Lists all active units. Pass the option `--type=TYPE` to only show units of `TYPE` type.
 - `systemctl reboot` - Reboot the system. Same effect as `systemctl isolate reboot.target`
 - `systemctl poweroff` - Power off the system. Same effect as `systemctl isolate shutdown.target`
-- `systemctl suspend` - Sleeps the system. Data in memory is as is.
+- `systemctl suspend` - Sleeps the system. Data in memory is saved as is.
 - `systemctl hibernate` - Hibernates the system. Data in memory is moved to disk.
 - `systemctl rescue` - Puts the system in rescue mode (similar to "safe mode" on Windows). Same effect as `systemctl isolate rescue.target`
 
@@ -87,7 +87,7 @@ We can interact with `systemd` with the `systemctl` utility. Here is a list of f
 #### Targets
 
 - `systemctl isolate [<target>]` - Alternate to the target unit.
-- `systemctl set-default [<target>]` - Set the default initialization target. Usually defaults to `multi-user.target` or `graphical.target`.
+- `systemctl set-default [<target>]` - Set the default initialization target for subsequent boots. Usually defaults to `multi-user.target` or `graphical.target`.
 - `systemctl get-default` - Get the default initialization target.
 
 ### More on units
