@@ -23,7 +23,7 @@ Details on jobs and processes will be discussed in another note. We will focus o
 
 Service Managers are the program that manages services, and it is the first program launched by the kernel boot. Strictly speaking, it is the first process executed in the [user-space environment](https://en.wikipedia.org/wiki/User_space_and_kernel_space). This is why its PID (process identification number) is always `1`.
 
-`systemd` is the service manager most used in modern Linux distributions. We will discuss mainly `systemd` and then explain the difference with its predecessor, `SysV`.
+`systemd` is the service manager most used in modern Linux distributions. We will discuss mainly `systemd` and then explain the difference with its predecessor, `SysVinit`.
 
 ## `systemd`: Service manager of modern Linux distribution
 
@@ -112,12 +112,12 @@ On a mount unit configuration such as the `/lib/systemd/system/sample.mount` exa
 
 This is in contrast to if you activate the mount unit via `systemctl mount sample.mount`, it will mount `/dev/sdb1` to `/mnt/usb` until we unmount it with `systemctl umount sample.mount`.
 
-## SysVinit: The legacy service manager
+## `SysVinit`: The legacy service manager
 
-SysVinit is a service manager replaced by `systemd`, which we might still encounter in legacy systems.
-SysVinit systems are easily understandable if we understand the concept of target units in `systemd`.
+`SysVinit` is a service manager replaced by `systemd`, which we might still encounter in legacy systems.
+`SysVinit` systems are easily understandable if we understand the concept of target units in `systemd`.
 
-In SysVinit, there are only 6 desired system state which is called runlevels.
+In `SysVinit`, there are only 6 desired system state which is called runlevels.
 Each runlevel is mutually exclusive to the other (i.e., you cannot have two runlevels active at the same time).
 What services should be enabled and disabled are defined at each runlevel.
 In systemd terms, think of it as having 6 mutually exclusive targets as the whole service manager.

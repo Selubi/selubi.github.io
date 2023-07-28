@@ -52,6 +52,41 @@ UEFI system and GRUB 2 is assumed in this section.
   - `set root=(hd0,1)` - Sets device and partition of root folder of OS. `hd0`,`hd1`,... corresponds to `/dev/sda`,`dev/sdb`,... in linux. Partition numbering starts at 1. So, this configuration in particular equates to `/dev/sda1`
   - `/vmlinuz` - Location of linux kernel. Because the kernel is located directly inside root folder, we can assume that this configuration has a seperate boot partition and it is not located at `/dev/sda1` `(hd0,1)`. If there is no boot partition and the boot folder is located within root parition, something like `/boot/vmlinuz` will instead be shown instead.
 
+## Service Manager (`systemd`)
+
+### Commands
+
+#### General
+
+- `systemctl list-unit-files` - Lists all available units and show if they are enabled. Pass the option `--type=TYPE` to only show units of `TYPE` type.
+- `systemctl list-units` - Lists all active units. Pass the option `--type=TYPE` to only show units of `TYPE` type.
+- `systemctl reboot` - Reboot the system. Same effect as `systemctl isolate reboot.target`
+- `systemctl poweroff` - Power off the system. Same effect as `systemctl isolate shutdown.target`
+- `systemctl suspend` - Sleeps the system. Data in memory is saved as is.
+- `systemctl hibernate` - Hibernates the system. Data in memory is moved to disk.
+- `systemctl rescue` - Puts the system in rescue mode (similar to "safe mode" on Windows). Same effect as `systemctl isolate rescue.target`
+
+#### Services
+
+- `systemctl start [<service>]`　- Starts unit
+- `systemctl stop [<service>]`　- Stops unit
+- `systemctl restart [<service>]`　- Restarts unit
+- `systemctl status [<service>]`　- Shows the state of unit
+- `systemctl is-active [<service>]`　- Shows `active` if unit is running, `inactive` otherwise.
+- `systemctl enable [<service>]`　- Makes unit start from the next system initialization. Does NOT start unit immediately.
+- `systemctl disable [<service>]`　- Unit will not start from the next system initialization.
+- `systemctl is-enabled [<service>]` - Outputs `enabled` or `disabled`.
+
+#### Targets
+
+- `systemctl isolate [<target>]` - Alternate to the target unit.
+- `systemctl set-default [<target>]` - Set the default initialization target for subsequent boots. Usually defaults to `multi-user.target` or `graphical.target`.
+- `systemctl get-default` - Get the default initialization target.
+
+### Files:
+
+- `/lib/systemd/system/` - Location of unit configuration file
+
 ## Shared Libraries
 
 ### Commands:
