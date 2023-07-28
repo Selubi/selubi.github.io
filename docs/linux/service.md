@@ -25,7 +25,7 @@ Service Managers are the program that manages services and it is the first progr
 
 `systemd` is the service manager most used in modern linux distributions. We will discuss mostly about `systemd` and then explain the difference with its predecessor, `SysV` after.
 
-## `systemd`: Service Manager of modern linux distribution
+## `systemd`: Service manager of modern linux distribution
 
 ### A Brief Overview
 
@@ -67,11 +67,12 @@ We can interact with `systemd` with the `systemctl` utility. Here is a list of f
 #### General
 
 - `systemctl list-unit-files` - Lists all available units and show if they are enabled. Pass the option `--type=TYPE` to only show units of `TYPE` type.
-- `systemctl list-unit` - Lists all active units
+- `systemctl list-unit` - Lists all active units. Pass the option `--type=TYPE` to only show units of `TYPE` type.
 - `systemctl reboot` - Reboot the system. Same effect as `systemctl isolate reboot.target`
 - `systemctl poweroff` - Power off the system. Same effect as `systemctl isolate shutdown.target`
 - `systemctl suspend` - Sleeps the system. Data in memory is as is.
 - `systemctl hibernate` - Hibernates the system. Data in memory is moved to disk.
+- `systemctl rescue` - Puts the system in rescue mode (similar to "safe mode" on Windows). Same effect as `systemctl isolate rescue.target`
 
 #### Services
 
@@ -94,17 +95,69 @@ We can interact with `systemd` with the `systemctl` utility. Here is a list of f
 
 #### What exactly are targets?
 
-Targets are basically a unit that contains a collection of other units to represent a state. For example if we have a graphical desktop environment, the `graphical.target` is the default target when the system boots.
+Targets are basically a unit that contains a collection of other units to represent a system state.
+If our linux installation have a graphical desktop environment, that is a system state in which the GUI is loaded (as opposed to a CLI only installation).
+The collection of units needed to achieve this state is called the `graphical.target`.
+For example, in an installation of ubuntu for desktop use, this `graphical.target` is the default target.
+The default target is the target unit that is targeted when the system boots (i.e. the default state of system we want to achieve on the boot process).
 
 In this `graphical.target` there might be multiple units, such as `mutter.service` if we use GNOME for our desktop environment, `network.target` to provide network connectivity, etc.
 
 Some targets could co-exist and complement each other such as the `graphical.target` and `network.target`, however some targets such as `rescue.target` (single user target) and `multi-user.target` (usually the default target for a non-graphical linux installations) are mutually exclusive.
 
-#### Mount units vs. automount units.
+There can be only one default target. In most cases this will be either `multi-user.target` or `graphical.target`. Another notable target is the `rescue.target` which is a system state for recovery, It is akin to "Safe Mode" for Windows.
+
+#### Mount units vs. automount units
 
 On a mount unit configuration such as the `/lib/systemd/system/sample.mount` example above, we can pass the `x-systemd.automount=true` to enable automount. When automounting is available, the device is not mounted right away. Instead, when an access to `/mnt/usb` is detected (via [kernel inotify event](https://man7.org/linux/man-pages/man7/inotify.7.html)), `/dev/sdb1` is mounted at that time and the `sample.automount` event is created. When `/mnt/usb` doesn't get accessed after a period of time after mounting, it is automatically dismounted.
 
 This is in contrast to if you activate the mount unit via `systemctl mount sample.mount`, it will mount `/dev/sdb1` to `/mnt/usb` until we unmount it with `systemctl umount sample.mount`.
+
+## SysVinit: The legacy service manager
+
+SysVinit is a service manager that was replaced by `systemd`, which we might still encounter in legacy systems.
+SysVinit systems are easily understandable if we understand the concept of target units in `systemd`.
+
+In SysVinit, there are only 6 desired system state which is called runlevels.
+Each runlevel is mutually exclusive to each other (i.e. you cannot have two runlevels active at the same time).
+What services should be enabled and disabled are defined in each runlevel.
+In systemd terms, think of it of having 6 mutually exclusive target as the whole service manager.
+
+There runlevels are defined as below:
+
+- `Runlevel 0` - Shutdown (equivalent to systemd's `shutdown.target`)
+- `Runlevel 1, s or single` - Single user mode (`rescue.target`)
+- `Runlevel 2,3,4` - Multi-user mode. 3 is the most used one (`multi-user.target`)
+- `Runlevel 5` - Graphical multi-user mode (`graphical.target`)
+- `Runlevel 6` - Restart (`reboot.target`)
+
+The settings such as default runlevel is set on the `/etc/inittab` file as shown below.
+
+```ini
+# id:runlevels:action:process is the syntax
+id:x:initdefault # Default runlevel is x, x should not be 0 or 6
+```
+
+During boot, the program `/sbin/init` will look into this `/etc/inittab` and get the default runlevel. If for example the default runlevel is 3, it will execute the scripts stored at `/etc/init.d/rc3.d/`.
+
+An example of `/etc/init.d/rc3.d/` contents is as follows.
+
+```
+S01network
+S02sshd
+S10cron
+K20apache2
+K30smbd
+K99halt
+```
+
+Here, files starting with `S` indicates that the service should be started and `K` indicates that the service should be killed to achieve the desired runlevel. The two digits after it represents the order the service should be started and killed. Lastly, there is the service name itself.
+
+Some useful commands related to runlevels:
+
+- `runlevel` - Shows current runlevel
+- `telinit <runlevel>` - Change system to runlevel `<runlevel>`
+- `telinit q` - Reload configuration. Run this if `/etc/inittab` is modified.
 
 ## Extra Notes
 
