@@ -52,9 +52,9 @@ UEFI system and GRUB 2 is assumed in this section.
   - `set root=(hd0,1)` - Sets device and partition of root folder of OS. `hd0`,`hd1`,... corresponds to `/dev/sda`,`dev/sdb`,... in linux. Partition numbering starts at 1. So, this configuration in particular equates to `/dev/sda1`
   - `/vmlinuz` - Location of linux kernel. Because the kernel is located directly inside root folder, we can assume that this configuration has a seperate boot partition and it is not located at `/dev/sda1` `(hd0,1)`. If there is no boot partition and the boot folder is located within root parition, something like `/boot/vmlinuz` will instead be shown instead.
 
-## Service Manager (`systemd`)
+## systemd (Service Manager)
 
-### Commands
+### Commands:
 
 #### General
 
