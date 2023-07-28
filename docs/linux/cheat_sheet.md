@@ -32,7 +32,8 @@ UEFI system and GRUB 2 is assumed in this section.
 
 - `grub-install` - Installs GRUB to `/boot/efi/`. Pass the `--efi-directory` option to install to other directory.
 - `update-grub` - Shortcut to the command `grub-mkconfig -o /boot/grub/grub.cfg`. Updates GRUB configuration file (commonly located in `/boot/grub/grub.cfg`) from the definitions in `/etc/default/grub` and `/etc/grub.d/`
-- Press`C` when on GRUB menu screen to access GRUB shell.
+- Press `C` when on GRUB menu screen to access GRUB shell.
+- Press `E` when on GRUB menu to edit kernel parameter for that particular entry for the current boot. Set `systemd.unit=rescue.target` to enter rescue mode for systemd base systems.
 
 ### Variables:
 

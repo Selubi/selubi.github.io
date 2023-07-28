@@ -26,9 +26,7 @@ In BIOS systems, GRUB is installed in the MBR (Master Boot Record). [BIOS only e
 
 A single GRUB can handle the boot of multiple operating systems when appropriately configured.
 
-## Configuring GRUB
-
-### Location of GRUB and its config files
+## Location of GRUB and its config files
 
 In UEFI based system, GRUB is loaded from the file `grubx64.efi` or `grubia32.efi` for 64-bit and 32-bit systems, respectively, from the ESP. Linux distributions often mount the contents of the ESP at `/boot/efi` or `/efi` (the exact location depends on the distribution).
 
@@ -50,9 +48,28 @@ GRUB checks the [`$prefix` variable](https://www.gnu.org/software/grub/manual/gr
 The `$prefix` variable is for the GRUB command line, not the Linux one.
 :::
 
-### Configuring GRUB
+## Installing GRUB
 
-#### Configuring the behavior of GRUB itself
+GRUB typically comes with a Linux installation. However, sometimes we may want to install it by ourselves.
+
+Installing GRUB usually means creating the EFI Application Partition in which GRUB resides.
+
+On UEFI-based systems, running `grub-install` without any options will install GRUB to `/boot/efi/`, the mount point for the EFI system partition. This works if you already have an EFI partition. If we install it this way, the boot directory (configuration directory) will depend on the Linux distribution.
+
+If we have a fresh drive with nothing on it, we can install GRUB by modifying the `grub-install` command as follows
+
+```bash
+grub-install --boot-directory=<DESIRED_BOOT_CONFIGURATION_PATH> <DESIRED_DEVICE_PATH>
+```
+
+When running this command, grub will be installed in the `<DESIRED_DEVICE_PATH>` such as `/dev/sda` and that GRUB will look for the configuration for the OS you are currently installing from at `<DESIRED_BOOT_CONFIGURATION_PATH>`.
+
+Here, `<DESIRED_BOOT_CONFIGURATION_PATH>` can be a directory in the root partition, such as `/boot/` or a mount directory of a boot partition.
+For example, if we have a boot partition at `/dev/sda1` and want to install GRUB on the same device, we can execute the below command.
+
+## Configuring GRUB
+
+### Configuring the behavior of GRUB itself
 
 In this section, GRUB configuration files are assumed to be located at `/boot/grub/grub.cfg`
 
@@ -86,7 +103,7 @@ GRUB_ENABLE_CRYPTODISK="y"
 
 By default, two menu entries are generated for each Linux kernel, one with the default options and one entry for recovery. `GRUB_CMDLINE_LINUX` modifies the recovery entries while `GRUB_CMDLINE_LINUX_DEFAULT` does not.
 
-#### Configuring GRUB Menu Entries
+### Configuring GRUB Menu Entries
 
 By default, `update-grub` will detect kernels and OSes present on the machine and generate the entries automatically. New entries could also be added manually to the `/etc/grub.d/`.
 
@@ -110,6 +127,19 @@ Instead of directly specifying the device and partition, GRUB 2 can also search 
 search --set=root --fs-uuid <UUID>
 ```
 
+## Interacting with GRUB
+
+GRUB screen will usually be skipped if we have only one OS installed.
+If we want to show GRUB, press `Shift` or `Esc` during boot.
+The grub screen is a list of menu entries to boot into.
+
+When selecting a menu entry, press `E` to edit the options (such as kernel parameters) for that entry.
+This action will open an editor related to that entry's configuration.
+An example use-case for this is booting to rescue mode.
+We can do that by setting `systemd.unit=rescue.target` on systemd-based entries.
+
+We can also press `C` to enter the GRUB shell and type `help` to list all available commands.
+
 ## Extra Notes
 
 The information regarding bootloaders is all over the place. For example, below are some questions that might get different answers.
@@ -121,4 +151,4 @@ The information regarding bootloaders is all over the place. For example, below 
 
 To get definite answers to these, we need to do experimentation. Always do a backup before messing with GRUB, as a wrong configuration can easily break things.
 
-Last updated: July 21, 2023
+Last updated: July 28, 2023
