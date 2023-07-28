@@ -143,7 +143,7 @@ During boot, the program `/sbin/init` will look into this `/etc/inittab` and get
 
 An example of `/etc/init.d/rc3.d/` contents is as follows.
 
-```
+```txt title=/etc/init.d/rc3.d/
 S01network
 S02sshd
 S10cron
