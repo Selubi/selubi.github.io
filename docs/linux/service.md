@@ -163,6 +163,6 @@ Some useful commands related to runlevels:
 ## Extra Notes
 
 - The exact definition of service and daemons are rather foggy. It is safe to assume that it refers to the background process closely related to the operating system and managed by service managers.
-- There are also other service managers such as `Upstart` that we didn't discuss, as modern Linux systems mostly use `systemd` and legacy systems `SysV`
+- There are also other service managers such as `Upstart` that we didn't discuss, as modern Linux systems mostly use `systemd` and legacy systems `SysVinit`
 
 Last Updated: July 28, 2023

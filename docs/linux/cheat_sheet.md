@@ -105,4 +105,4 @@ UEFI system and GRUB 2 is assumed in this section.
 
 - `/etc/ld.so.conf.d/` - `ld` (dynamic linker) looks for shared library paths defined in files in this folder.
 
-Last updated: July 21, 2023
+Last updated: July 28, 2023
