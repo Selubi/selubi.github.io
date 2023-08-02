@@ -1,7 +1,7 @@
 ---
 id: network-datalink
 title: Layer 2 - Data Link
-sidebar_label: Layer 2 - DataLink
+sidebar_label: Layer 2 - Data Link
 sidebar_position: 102
 tags:
   - Network
