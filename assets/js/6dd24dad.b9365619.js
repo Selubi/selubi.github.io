@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkselubi_tech=self.webpackChunkselubi_tech||[]).push([[930],{4559:e=>{e.exports=JSON.parse('{"label":"Network","permalink":"/tags/network","allTagsPath":"/tags","count":1,"items":[{"id":"network/network-physical","title":"Layer 1 - Physical","description":"What is it?","permalink":"/network/network-physical"}]}')}}]);
