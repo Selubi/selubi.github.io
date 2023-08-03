@@ -56,9 +56,13 @@ Below are the majority of L2 devices:
 
 A switch is an L2 device that provides unicast (sending data to a single connected target device) functionality in addition to broadcast (sending data to all target devices) functionality, as seen in hubs.
 
-To do this, switches maintain a MAC address table, A list of what MAC address is physically connected to a port on the switch.
+To do this, switches maintain a MAC address table, A list of what MAC address is physically connected to a port on the switch. An important to note that one port may correspond to multiple MAC addresses. This structure makes it convenient to connect devices through another switch.
 
-At first, the switch does not know what MAC address is connected to it. When a packet is sent through the switch, it reads the source MAC Address from the frame header and registers it to the table.
+As a side-effect, loops may form. Modern switches may implement the [Spanning Tree Protocol](<https://www.cisco.com/c/en/us/support/docs/lan-switching/spanning-tree-protocol/5234-5.html#:~:text=Spanning%20Tree%20Protocol%20(STP)%20is,are%20deadly%20to%20a%20network>) to prevent loops.
+
+When a frame passes through a switch, the frame is not modified. The source MAC address is the original sending device MAC address. As a result, switches are mutually transparent (i.e. the switch does not know if the frame has passed through another switch).
+
+At first, the switch does not know what MAC addresses are connected to it. When a packet is sent through the switch, it reads the source MAC Address from the frame header and registers it to the table.
 
 The switch will then look at the destination MAC address, find out which port the destination MAC address is from the table, and sends the data.
 
@@ -74,4 +78,4 @@ If another transfer is happening, the device waits until the transfer is over an
 
 Modern wired connections use full-duplex, so collisions itself doesn't happen. This naturally means that the need for CSMA/CD also disappears.
 
-Last updated: August 2, 2023
+Last updated: August 3, 2023
