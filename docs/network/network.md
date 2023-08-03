@@ -1,5 +1,5 @@
 ---
-id: network-datalink
+id: network-network
 title: Layer 3 - Network
 sidebar_label: Layer 3 - Network
 sidebar_position: 103
