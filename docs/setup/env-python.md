@@ -9,7 +9,7 @@ tags:
   - Python
 ---
 
-Setup for python development environment. We will use [pyenv](https://github.com/pyenv/pyenv/) (version control) + [venv](https://docs.python.org/3/library/venv.html) instead of conda.
+Setup for python development environment. We will use [pyenv](https://github.com/pyenv/pyenv/) (version manager) + [venv](https://docs.python.org/3/library/venv.html) instead of conda.
 
 ## Setup pyenv
 
