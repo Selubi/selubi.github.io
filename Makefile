@@ -1,16 +1,13 @@
 .PHONY: install serve build touch rm
 
 install:
-	yarn install --frozen-lockfile
+	npm install
 
-serve-en:
-	yarn run start
-
-serve-ja:
-	yarn run start --locale ja
+serve:
+	npm run start
 
 build:
-	yarn build
+	npm run build
 
 touch:
 	./tools/touch.sh $(target)
