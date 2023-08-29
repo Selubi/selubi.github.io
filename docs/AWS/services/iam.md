@@ -1,5 +1,5 @@
 ---
-id: aws-services-vpc
+id: aws-services-iam
 title: AWS Identity Access Management
 sidebar_label: IAM
 sidebar_position: 101

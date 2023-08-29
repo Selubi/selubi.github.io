@@ -3,6 +3,7 @@ id: home
 title: About selubi.tech
 sidebar_label: About
 slug: /
+sidebar_position: 1
 ---
 
 A System Infrastructure Engineer's notes.
