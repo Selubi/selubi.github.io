@@ -1,0 +1,8 @@
+{
+  "label": "Services",
+
+  "link": {
+    "type": "generated-index",
+    "description": "A collection of notes related to AWS Services."
+  }
+}
