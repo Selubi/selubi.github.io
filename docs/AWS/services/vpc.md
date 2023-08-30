@@ -8,7 +8,7 @@ tags:
   - VPC
 ---
 
-### Service Availability: **Region**
+### Service Resiliency: **Region**
 
 This note is based on [Adrian Cantrill's AWS Course](https://learn.cantrill.io/)
 
@@ -35,4 +35,4 @@ Default VPC has the following properties:
 - Internet Gateway (IGW), Security Group (SG), and Network Access Control List (NACL) are configured by default. It allows outbound traffic and denies inbound traffic by default.
 - Instances launched in subnets are assigned public IPv4 addresses by default; however, this is configurable during instance launch.
 
-Last updated: August 29, 2023
+Last updated: August 30, 2023

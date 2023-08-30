@@ -8,6 +8,6 @@ tags:
   - IAM
 ---
 
-### Service Availability: **Global**
+### Service Resiliency: **Global**
 
 placeholder
