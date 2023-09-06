@@ -76,7 +76,7 @@ Consider the following directory structure
 
 Where these are each of the files.
 
-```python title="~/Playground/main.py
+```python title="~/Playground/main.py"
 import parentprint
 import child.grandkid.grandkidprint as grandkidprint
 
@@ -85,17 +85,17 @@ print("-----------------")
 grandkidprint.echo()
 ```
 
-```python title="~/Playground/parentprint.py
+```python title="~/Playground/parentprint.py"
 def echo():
     print("This is an output from ~/Playground/Parent/parentprint.py")
 ```
 
-```python title="~/Playground/child/childprint.py
+```python title="~/Playground/child/childprint.py"
 def echo():
     print("This an output from ~/Playground/Parent/child/childprint.py")
 ```
 
-```python title="~/Playground/child/grandkid/grandkidprint.py
+```python title="~/Playground/child/grandkid/grandkidprint.py"
 import child.childprint as childprint
 
 
