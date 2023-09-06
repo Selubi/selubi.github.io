@@ -131,3 +131,5 @@ Even though the package imports `grandkidprint.py`, the runtime context is the `
 With the same reason, executing `grandkidprint.py` directly returns an import error.
 This is because python looks for the `child` package in `sys.path` which contains `~/Playground/child/grandkid` and the default library path.
 In this context, the package/module `child` doesn't exist.
+
+Last updated: September 26, 2023
