@@ -11,3 +11,5 @@ tags:
 ### Service Resiliency: **Global**
 
 placeholder
+
+## IAM Policy
