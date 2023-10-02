@@ -9,6 +9,7 @@ sidebar_label: bash
 ### Multi-location logging
 
 ```bash
+#!/bin/bash
 LOG_FILE_LOCATION="/tmp/mytest.log"
 log_message() {
     # Output messages to syslog, $LOG_FILE_LOCATION and stderr
@@ -46,6 +47,7 @@ Notice that `log_message` only outputs `stderr`. If `log_message` outputs `stdou
 This is a problem when doing variable assignment and manipulating exit status at once.
 
 ```bash title=problem.sh
+#!/bin/bash
 myfunc() {
     echo "error from myfunc"
     return 15
@@ -65,6 +67,7 @@ main
 ```
 
 ```bash title=solution.sh
+#!/bin/bash
 myfunc() {
     echo "error from myfunc"
     return 15
@@ -84,3 +87,5 @@ main(){
 
 main
 ```
+
+Last updated: October 2, 2023
