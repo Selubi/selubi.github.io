@@ -8,8 +8,11 @@ tags:
 ---
 
 This is a function, intended to be appended to your shell profile of the ssh client (your laptop, step server) that wraps around ssh.
+
 It opens an SSH connection, attaches a tmux session if it exists, or creates a new one.
+
 The benefit of doing it this way instead of invoking tmux from the shell profile of the ssh host is that when we detach or exit the tmux session, the SSH session also closes.
+
 When we detach, the SSH connection closed but we can reattach the tmux session when we reconnect.
 
 ```bash

@@ -6,7 +6,8 @@ sidebar_label: Gotchas
 
 ## `local` is a command
 
-ShellCheck properly checks for this mistake ([SC2155](https://www.shellcheck.net/wiki/SC2155))
+ShellCheck properly checks for this mistake ([SC2155](https://www.shellcheck.net/wiki/SC2155)).
+
 This is a problem when doing variable assignment and manipulating exit status at once.
 
 ```bash title=problem.sh
