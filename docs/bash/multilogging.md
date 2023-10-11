@@ -1,7 +1,7 @@
 ---
 id: bash-multilogging
-title: Multi-location Logging
-sidebar_label: bash
+title: Multi-Location Logging
+sidebar_label: Multi-Location Logging
 ---
 
 ```bash
