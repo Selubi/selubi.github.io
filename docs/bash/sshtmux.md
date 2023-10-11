@@ -24,8 +24,8 @@ function ssh() {
         return 1
     fi
 
-    echo "Executing ssh -tA $@ \"tmux has-session && tmux -CC attach || tmux -CC\""
-    command ssh -tA $@ "tmux has-session && tmux -CC attach || tmux -CC"
+    echo "Executing ssh -tA $@ \"tmux has-session && tmux attach || tmux\""
+    command ssh -tA $@ "tmux has-session && tmux attach || tmux"
 }
 ```
 
