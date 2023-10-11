@@ -1,10 +1,10 @@
 ---
-id: linux-notes-sshtmux
+id: bash-sshtmux
 title: Tmux over SSH
 sidebar_label: Tmux over SSH
 sidebar_position: 101
 tags:
-  - Linux
+  - bash
 ---
 
 This is a function, intended to be appended to your shell profile of the ssh client (your laptop, step server) that wraps around ssh.
@@ -24,11 +24,9 @@ function ssh() {
         return 1
     fi
 
-    local host="$1"
-    shift
-    echo "Executing ssh $@ -t $host \"tmux has-session && tmux attach || tmux\""
-    command ssh "$@" -t "$host" "tmux has-session && tmux attach || tmux"
+    echo "Executing ssh -tA $@ \"tmux has-session && tmux -CC attach || tmux -CC\""
+    command ssh -tA $@ "tmux has-session && tmux -CC attach || tmux -CC"
 }
 ```
 
-Last updated: September 13, 2023
+Last updated: October 11, 2023
