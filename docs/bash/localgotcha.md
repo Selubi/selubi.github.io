@@ -1,6 +1,6 @@
 ---
 id: bash-localgotcha
-title: `local` is a command
+title: local is a command
 sidebar_label: bash
 ---
 
