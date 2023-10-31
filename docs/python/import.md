@@ -170,7 +170,7 @@ if __name__ == "__main__":
 
 If we execute it as is, as expected it will throw a `ModuleNotFoundError`:
 
-```bash
+```bash title="~/Playground"
 ❯ python child/grandkid/grandkidprint.py
 /Users/selubi/Playground/child/grandkid
 /Users/selubi/.pyenv/versions/3.11.4/lib/python311.zip
@@ -184,7 +184,7 @@ ModuleNotFoundError: No module named 'child'
 
 We can explicitly say that we want python to search our working directory as well for modules by setting the `PYTHONPATH` environment variable during invocation. For example:
 
-```bash
+```bash title="~/Playground"
 PYTHONPATH=$PWD:$PYTHONPATH python child/grandkid/grandkidprint.py
 /Users/selubi/Playground/child/grandkid
 /Users/selubi/Playground
