@@ -58,6 +58,8 @@ func()
 
 **Always remember that `sys.path` typically include only global library path and the parent folder of the file being executed.**
 
+`sys.path` is just a normal python list and therefore you can append to it as with any other python list.
+
 Understanding this should solve a lot of import problems.
 
 ## A more complex example
@@ -87,12 +89,12 @@ grandkidprint.echo()
 
 ```python title="~/Playground/parentprint.py"
 def echo():
-    print("This is an output from ~/Playground/Parent/parentprint.py")
+    print("This is an output from ~/Playground/parentprint.py")
 ```
 
 ```python title="~/Playground/child/childprint.py"
 def echo():
-    print("This an output from ~/Playground/Parent/child/childprint.py")
+    print("This an output from ~/Playground/child/childprint.py")
 ```
 
 ```python title="~/Playground/child/grandkid/grandkidprint.py"
@@ -102,25 +104,24 @@ import child.childprint as childprint
 def echo():
     childprint.echo()
     print(
-        "but it is invoked from ~/Playground/Parent/child/grandkid/grandkidprint.py\n"
+        "but it is invoked from ~/Playground/child/grandkid/grandkidprint.py\n"
     )
-
 ```
 
 The following will happen
 
-```bash
+```bash title="~/Playground"
 # Execute main.py
 $ python main.py
-This is an output from ~/Playground/Parent/parentprint.py
+This is an output from ~/Playground/parentprint.py
 -----------------
-This an output from ~/Playground/Parent/child/childprint.py
-but it is invoked from ~/Playground/Parent/child/grandkid/grandkidprint.py
+This an output from ~/Playground/child/childprint.py
+but it is invoked from ~/Playground/child/grandkid/grandkidprint.py
 
 # Execute grandkidprint.py directly
 $ python child/grandkid/grandkidprint.py
 Traceback (most recent call last):
-  File "/Users/bryan.gregorius/Playground/child/grandkid/grandkidprint.py", line 1, in <module>
+  File "/Users/selubi/Playground/child/grandkid/grandkidprint.py", line 1, in <module>
     import child.childprint as childprint
 ModuleNotFoundError: No module named 'child'
 ```
@@ -132,4 +133,69 @@ With the same reason, executing `grandkidprint.py` directly returns an import er
 This is because python looks for the `child` package in `sys.path` which contains `~/Playground/child/grandkid` and the default library path.
 In this context, the package/module `child` doesn't exist.
 
-Last updated: September 26, 2023
+## Importing modules at working directory from invocation side with `PYTHONPATH`
+
+In this section we will attempt to execute a python file from a subfolder, while importing from the current working directory (`$PWD`).
+
+Consider the below folder structure from the section before
+
+```bash title="~/Playground"
+.
+├── child
+│   ├── childprint.py
+│   └── grandkid
+│       └── grandkidprint.py
+├── main.py
+└── parentprint.py
+```
+
+We now modify the contents of `~/Playground/child/grandkid/grandkidprint.py` to show the `sys.path` and call `echo()` if it was executed directly.
+
+```python title="~/Playground/child/grandkid/grandkidprint.py"
+import sys
+for path in sys.path:
+    print(path)
+
+import child.childprint as childprint
+
+def echo():
+    childprint.echo()
+    print(
+        "but it is invoked from ~/Playground/child/grandkid/grandkidprint.py\n"
+    )
+
+if __name__ == "__main__":
+    echo()
+```
+
+If we execute it as is, as expected it will throw a `ModuleNotFoundError`:
+
+```bash
+❯ python child/grandkid/grandkidprint.py
+/Users/selubi/Playground/child/grandkid
+/Users/selubi/.pyenv/versions/3.11.4/lib/python311.zip
+/Users/selubi/.pyenv/versions/3.11.4/lib/python3.11
+/Users/selubi/.pyenv/versions/3.11.4/lib/python3.11/site-packages
+Traceback (most recent call last):
+  File "/Users/selubi/Playground/child/grandkid/grandkidprint.py", line 5, in <module>
+    import child.childprint as childprint
+ModuleNotFoundError: No module named 'child'
+```
+
+We can explicitly say that we want python to search our working directory as well for modules by setting the `PYTHONPATH` environment variable during invocation. For example:
+
+```bash
+PYTHONPATH=$PWD:$PYTHONPATH python child/grandkid/grandkidprint.py
+/Users/selubi/Playground/child/grandkid
+/Users/selubi/Playground
+/Users/selubi/.pyenv/versions/3.11.4/lib/python311.zip
+/Users/selubi/.pyenv/versions/3.11.4/lib/python3.11
+/Users/selubi/.pyenv/versions/3.11.4/lib/python3.11/lib-dynload
+/Users/selubi/.pyenv/versions/3.11.4/lib/python3.11/site-packages
+This an output from ~/Playground/child/childprint.py
+but it is invoked from ~/Playground/child/grandkid/grandkidprint.py
+```
+
+As we can see, by appending to the `PYTHONPATH` variable, `/Users/selubi/Playground` was added to the `sys.path`. Because of that, in the context of `/Users/selubi/Playground`, the module `child` exist and thus imported properly.
+
+Last updated: October 31, 2023
