@@ -30,7 +30,7 @@ We will use [`concurrent.futures`](https://docs.python.org/3/library/concurrent.
 
 A basic syntax would look something like this
 
-```python title="benchmark.py"
+```python title="benchmark.py" showLineNumbers
 import concurrent.futures
 import structlog
 from time import sleep
@@ -138,7 +138,7 @@ As someone who reads the log, we can scroll to know which server failed but it i
 
 To address this, instead of doing a list comprehension for `futures`, we can do a dict comprehension to associate futures with server ids as shown below.
 
-```python title=benchmark.py
+```python title=benchmark.py showLineNumbers
 import concurrent.futures
 import structlog
 from time import sleep
@@ -257,7 +257,7 @@ We can then make `benchmark_single_server()` throw exceptions as a way to commun
 
 We will also add `benchmark_gpu()` as a required benchmark of each server.
 
-```python title="benchmark.py"
+```python title="benchmark.py" showLineNumbers
 import concurrent.futures
 import structlog
 from time import sleep
@@ -337,8 +337,6 @@ def benchmark_multiple_servers(server_ids):
                 logger.error(f"Benchmark failed on {server_id=} with {err}.")
 # highlight-end
                 failed_servers.append(futures[future])
-
-
     logger.info(
         f"Out of {len(server_ids)}, {len(failed_servers)} servers failed. {failed_servers=}"
     )
@@ -429,4 +427,4 @@ I myself prefer the `future.exception()` because it is more friendly to [`pylint
 
 As we can see, adding a 'per-thread main function' abstraction layer could actually simplify the whole process when scaling.
 
-Last updated: November 14, 2023
+Last updated: November 15, 2023
