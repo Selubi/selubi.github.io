@@ -257,7 +257,7 @@ This poses problem if we would add another benchmark, say `benchmark_gpu()`.
 `benchmark_multiple_servers()` will require additional logic, and it will be harder to debug/change in the long term.
 
 Instead, we can define a new function `benchmark_single_server()` that will act as a 'main function' for each thread.
-We can design it so that `benchmark_multiple_servers()` only interact and orchestrate with `benchmark_single_server()`.
+We can design it so that `benchmark_multiple_servers()` only interacts with `benchmark_single_server()`.
 
 We can then make `benchmark_single_server()` throw exceptions as a way to communicate to `benchmark_multiple_servers()`.
 
@@ -433,7 +433,7 @@ I myself prefer the `future.exception()` because it is more friendly to [`pylint
 
 As we can see, adding a 'per-thread main function' abstraction layer could actually simplify the whole process when scaling.
 
-# A more flexible and less verbose logging
+## A more flexible and less verbose logging
 
 So far we put `server_id` manually in the message when calling the the logger.
 As is, its really more of an inconvenience but let's think of another situation.
@@ -463,7 +463,7 @@ logger = structlog.get_logger(__name__)
 class PerformanceBelowExpected(Exception):
     """Hardware performance is below expected"""
 
-
+# highlight-next-line
 def benchmark_cpu(ssh_client):
     """CPU benchmarks a single server"""
 
@@ -478,7 +478,7 @@ def benchmark_cpu(ssh_client):
     logger.info(f"CPU benchmark score is {benchmark_score}.")
     return benchmark_score
 
-
+# highlight-next-line
 def benchmark_gpu(ssh_client):
     """GPU benchmarks a single server"""
 
@@ -502,7 +502,9 @@ def benchmark_single_server(server_id):
     ssh_client = Mock()
     ssh_client.connect(server_id)
 
+    # highlight-next-line
     cpu_score = benchmark_cpu(ssh_client)
+    # highlight-next-line
     gpu_score = benchmark_gpu(ssh_client)
     if cpu_score < BENCHMARK_SCORE_THRESHOLD or gpu_score < BENCHMARK_SCORE_THRESHOLD:
         raise PerformanceBelowExpected(
@@ -616,9 +618,9 @@ $ grep 25801 benchmark.log
 Multithreading comes in different shapes.
 In this note we discussed an example of multithreading usage for server automations.
 
-We started with a basic syntax and addresses each problem little by little, and in the end we have an easily extensible multithreaded code that produces easily debuggable log.
+We started with a basic syntax and address each problem little by little, and in the end we have an easily extensible multithreaded code that produces easily debuggable log.
 We also show that this approach is great for re-using existing single-threaded functions and making it multithreaded.
 
-In a real-world deployment, scripts like this may be run either by trigger or periodically by a CI/CD tool like Jenkins. It will also most probably receive a config and the servers to benchmark from somewhere.
+In a real-world deployment, scripts like this may be run either by trigger or periodically by a CI/CD tool like Jenkins. It will also most probably receive a config and the servers to benchmark from somewhere and do something to the servers that failed the benchmark.
 
 Last updated: November 15, 2023
