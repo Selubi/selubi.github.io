@@ -15,7 +15,7 @@ For me, my background is server operation automations.
 As such, my uses for multithreading is performing automations on multiple server at once (e.g. one server per thread),
 how to orchestrate it effectively and how to make a good log for easier troubleshooting.
 
-It is worth mentioning that python has a [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock)(GIL).
+It is worth mentioning that python has a [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock) (GIL).
 This makes sure that only a single thread can be executed at a single point in time.
 
 In this tutorial we will consider a scenario where we want to perform benchmarks on remote servers.
@@ -47,8 +47,8 @@ def benchmark_cpu(server_id):
     ssh_client = Mock()
     ssh_client.connect(server_id)
 
-    # Normally you would run some benchmark commands via the SSH Client
-    # But we are just going to simulate it for this tutorial
+    # Normally you would run some benchmark commands via the ssh_client
+    # But we are just going to simulate it with sleep and random for this tutorial
     benchmark_time = randint(1, 10)
     sleep(benchmark_time)  # Simulate time it needs to benchmark
     logger.info(f"CPU benchmark completed after {benchmark_time}s for {server_id=}")
@@ -123,9 +123,8 @@ $ python3 benchmark.py
 This script has multiple points it can be improved on:
 
 - The main thread doesn't know which servers failed.
-- If we were to add another benchmark, lets say `benchmark_gpu()` this script won't scale well
+- If we were to add another benchmark, lets say `benchmark_gpu()` this script won't scale well and it doesn't handle unexpected errors.
 - Logging is verbose, we need to add `{server_id=}` in every time. This also makes the log inflexible.
-- It doesn't handle unexpected errors.
 
 In the following section we will build on this base syntax address these issues.
 
@@ -156,8 +155,8 @@ def benchmark_cpu(server_id):
     ssh_client = Mock()
     ssh_client.connect(server_id)
 
-    # Normally you would run some benchmark commands via the SSH Client
-    # But we are just going to simulate it for this tutorial
+    # Normally you would run some benchmark commands via the ssh_client
+    # But we are just going to simulate it with sleep and random for this tutorial
     benchmark_time = randint(1, 10)
     sleep(benchmark_time)  # Simulate time it needs to benchmark
     logger.info(f"CPU benchmark completed after {benchmark_time}s for {server_id=}")
@@ -183,7 +182,7 @@ def benchmark_multiple_servers(server_ids):
         for future in concurrent.futures.as_completed(futures):
             # Will be executed when a thread represented by future is completed.
             if future.result() < 50:
-                // highlight-next-line
+                # highlight-next-line
                 failed_servers.append(futures[future])
     # highlight-start
     logger.info(
@@ -241,5 +240,194 @@ $ grep 7085 benchmark.log
 2023-11-15 11:24:15 [info     ] CPU benchmark score is 0 for server_id=7085
 2023-11-15 11:24:27 [info     ] Out of 10, 3 servers failed. failed_servers=[7085, 30749, 32687]
 ```
+
+# Scaling to more complex per-thread workloads
+
+As it is right now, the main thread, `benchmark_multiple_servers()` directly accepts the benchmark score and decides if the server failed or not.
+
+This poses problem if we would add another benchmark, say `benchmark_gpu()`.
+`benchmark_multiple_servers()` will require additional logic, and it will be harder to debug/change in the long term.
+
+Instead, we can define a new function `benchmark_single_server()` that will act as a 'main function' for each thread.
+We can design it so that `benchmark_multiple_servers()` only interact and orchestrate with `benchmark_single_server()`.
+
+We can then make `benchmark_single_server()` throw exceptions as a way to communicate to `benchmark_multiple_servers()`.
+
+We will also add `benchmark_gpu()` as a required benchmark of each server.
+
+```python title="benchmark.py"
+import concurrent.futures
+import structlog
+from time import sleep
+from unittest.mock import Mock
+from random import randint, sample
+
+MAX_THREADS = 5
+BENCHMARK_SCORE_THRESHOLD = 50
+logger = structlog.get_logger(__name__)
+
+
+# highlight-start
+class PerformanceBelowExpected(Exception):
+    """Hardware performance is below expected"""
+
+
+# highlight-end
+
+
+def benchmark_cpu(ssh_client, server_id):
+    """CPU benchmarks a single server"""
+
+    # Normally you would run some benchmark commands via the ssh_client
+    # But we are just going to simulate it with sleep and random for this tutorial
+    benchmark_time = randint(1, 10)
+    sleep(benchmark_time)  # Simulate time it needs to benchmark
+    logger.info(f"CPU benchmark completed after {benchmark_time}s for {server_id=}")
+
+    benchmark_score = randint(0, 100)
+    logger.info(f"CPU benchmark score is {benchmark_score} for {server_id=}")
+    return benchmark_score
+
+
+# highlight-start
+def benchmark_gpu(ssh_client, server_id):
+    """GPU benchmarks a single server"""
+
+    # Normally you would run some benchmark commands via the ssh_client
+    # But we are just going to simulate it with sleep and random for this tutorial
+    benchmark_time = randint(1, 10)
+    sleep(benchmark_time)  # Simulate time it needs to benchmark
+    logger.info(f"GPU benchmark completed after {benchmark_time}s for {server_id=}")
+
+    benchmark_score = randint(0, 100)
+    logger.info(f"GPU benchmark score is {benchmark_score} for {server_id=}")
+    return benchmark_score
+
+
+def benchmark_single_server(server_id):
+    """Perform benchmarks on a single server"""
+    # SSH client is now defined here because it is the same across benchmarks
+    ssh_client = Mock()
+    ssh_client.connect(server_id)
+
+    cpu_score = benchmark_cpu(ssh_client, server_id)
+    gpu_score = benchmark_gpu(ssh_client, server_id)
+    if cpu_score < BENCHMARK_SCORE_THRESHOLD or gpu_score < BENCHMARK_SCORE_THRESHOLD:
+        raise PerformanceBelowExpected(
+            f"Hardware performance is below expectations {server_id=}"
+        )
+
+
+# highlight-end
+def benchmark_multiple_servers(server_ids):
+    """Orchestrates benchmarks of multiple server"""
+    logger.info(f"Servers to benchmark: {server_ids}")
+    failed_servers = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
+        futures = {
+            # Dict[asyncio.future,List[int]] (Dict comprehension)
+            # highlight-next-line
+            executor.submit(benchmark_single_server, server_id): server_id
+            for server_id in server_ids
+        }
+        for future in concurrent.futures.as_completed(futures):
+            # Will be executed when a thread represented by future is completed.
+            # highlight-start
+            server_id = futures[future]
+            if future.exception():  # No exceptions raised == benchmark success
+                err = future.exception()
+                logger.error(f"Benchmark failed on {server_id=} with {err}.")
+                failed_servers.append(futures[future])
+            # highlight-end
+
+    logger.info(
+        f"Out of {len(server_ids)}, {len(failed_servers)} servers failed. {failed_servers=}"
+    )
+
+
+if __name__ == "__main__":
+    # Generate 10 random server_id
+    server_ids_to_benchmark = sample(range(1, 50000), 10)
+    benchmark_multiple_servers(server_ids_to_benchmark)
+
+```
+
+Changes from the previous script:
+
+- `benchmark_gpu()` function is added
+- A new custom exception type `PerformanceBelowExpected` is defined.
+- `benchmark_single_server()` function is added as main function per thread. It will throw `PerformanceBelowExpected` to communicate failure to the main thread.
+- `ssh_client` is now initialized at `benchmark_single_server()` because it is shared across the whole thread, this reduces overhead.
+- `benchmark_multiple_servers()` will now catch threads that raised an exception and mark them as failed.
+  Threads that doesn't raise an exception are considered successes.
+
+A sample output of this script will look as below.
+
+```log
+$ python3 benchmark.py
+2023-11-15 12:24:00 [info     ] Servers to benchmark: [24318, 25634, 45461, 16233, 35516, 7582, 37233, 41992, 14548, 24315]
+2023-11-15 12:24:01 [info     ] CPU benchmark completed after 1s for server_id=25634
+2023-11-15 12:24:01 [info     ] CPU benchmark score is 34 for server_id=25634
+2023-11-15 12:24:03 [info     ] CPU benchmark completed after 3s for server_id=24318
+2023-11-15 12:24:03 [info     ] CPU benchmark score is 36 for server_id=24318
+2023-11-15 12:24:07 [info     ] CPU benchmark completed after 7s for server_id=35516
+2023-11-15 12:24:07 [info     ] CPU benchmark score is 26 for server_id=35516
+2023-11-15 12:24:07 [info     ] GPU benchmark completed after 4s for server_id=24318
+2023-11-15 12:24:07 [info     ] GPU benchmark score is 36 for server_id=24318
+2023-11-15 12:24:07 [error    ] Benchmark failed on server_id=24318 with Hardware performance is below expectations server_id=24318.
+2023-11-15 12:24:08 [info     ] CPU benchmark completed after 8s for server_id=16233
+2023-11-15 12:24:08 [info     ] CPU benchmark score is 79 for server_id=16233
+2023-11-15 12:24:08 [info     ] GPU benchmark completed after 7s for server_id=25634
+2023-11-15 12:24:08 [info     ] GPU benchmark score is 12 for server_id=25634
+2023-11-15 12:24:08 [error    ] Benchmark failed on server_id=25634 with Hardware performance is below expectations server_id=25634.
+2023-11-15 12:24:09 [info     ] CPU benchmark completed after 9s for server_id=45461
+2023-11-15 12:24:09 [info     ] CPU benchmark score is 92 for server_id=45461
+2023-11-15 12:24:09 [info     ] CPU benchmark completed after 1s for server_id=37233
+2023-11-15 12:24:09 [info     ] CPU benchmark score is 17 for server_id=37233
+2023-11-15 12:24:11 [info     ] GPU benchmark completed after 3s for server_id=16233
+2023-11-15 12:24:11 [info     ] GPU benchmark score is 84 for server_id=16233
+2023-11-15 12:24:16 [info     ] GPU benchmark completed after 7s for server_id=37233
+2023-11-15 12:24:16 [info     ] GPU benchmark score is 12 for server_id=37233
+2023-11-15 12:24:16 [error    ] Benchmark failed on server_id=37233 with Hardware performance is below expectations server_id=37233.
+2023-11-15 12:24:17 [info     ] GPU benchmark completed after 8s for server_id=45461
+2023-11-15 12:24:17 [info     ] GPU benchmark score is 26 for server_id=45461
+2023-11-15 12:24:17 [info     ] GPU benchmark completed after 10s for server_id=35516
+2023-11-15 12:24:17 [error    ] Benchmark failed on server_id=45461 with Hardware performance is below expectations server_id=45461.
+2023-11-15 12:24:17 [info     ] GPU benchmark score is 70 for server_id=35516
+2023-11-15 12:24:17 [error    ] Benchmark failed on server_id=35516 with Hardware performance is below expectations server_id=35516.
+2023-11-15 12:24:17 [info     ] CPU benchmark completed after 10s for server_id=7582
+2023-11-15 12:24:17 [info     ] CPU benchmark score is 15 for server_id=7582
+2023-11-15 12:24:20 [info     ] CPU benchmark completed after 3s for server_id=24315
+2023-11-15 12:24:20 [info     ] CPU benchmark score is 76 for server_id=24315
+2023-11-15 12:24:21 [info     ] GPU benchmark completed after 1s for server_id=24315
+2023-11-15 12:24:21 [info     ] CPU benchmark completed after 10s for server_id=41992
+2023-11-15 12:24:21 [info     ] GPU benchmark score is 25 for server_id=24315
+2023-11-15 12:24:21 [info     ] CPU benchmark score is 54 for server_id=41992
+2023-11-15 12:24:21 [error    ] Benchmark failed on server_id=24315 with Hardware performance is below expectations server_id=24315.
+2023-11-15 12:24:24 [info     ] GPU benchmark completed after 3s for server_id=41992
+2023-11-15 12:24:24 [info     ] GPU benchmark score is 61 for server_id=41992
+2023-11-15 12:24:25 [info     ] GPU benchmark completed after 8s for server_id=7582
+2023-11-15 12:24:25 [info     ] GPU benchmark score is 52 for server_id=7582
+2023-11-15 12:24:25 [error    ] Benchmark failed on server_id=7582 with Hardware performance is below expectations server_id=7582.
+2023-11-15 12:24:25 [info     ] CPU benchmark completed after 9s for server_id=14548
+2023-11-15 12:24:25 [info     ] CPU benchmark score is 93 for server_id=14548
+2023-11-15 12:24:28 [info     ] GPU benchmark completed after 3s for server_id=14548
+2023-11-15 12:24:28 [info     ] GPU benchmark score is 87 for server_id=14548
+2023-11-15 12:24:28 [info     ] Out of 10, 7 servers failed. failed_servers=[24318, 25634, 37233, 45461, 35516, 24315, 7582]
+```
+
+A welcome side effect of this approach is that now, `benchmark_multiple_servers()` will also catch unexpected errors and will not crash.
+
+In real world applications, there could be a lot of unexpected errors. In our code alone, `ssh_client` could throw connection errors.
+
+In most cases, we don't want the main thread that orchestrates things to crash at all costs. Main thread crashing could result in unexpected behavior.
+
+:::note
+`future.result()` rethrows an error if an error was thrown on the thread. As such, instead of doing `future.exception()` you can also do a try except clause.
+
+I myself prefer the `future.exception()` because it is more friendly to pylint.
+:::
+
+As we can see, adding a 'per-thread main function' abstraction layer could actually simplify the whole process.
 
 Last updated: November 14, 2023
