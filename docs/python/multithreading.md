@@ -26,6 +26,8 @@ During "wait periods" GIL will be released and the interpreter could work on oth
 
 Consider that we want to perform benchmarks on servers.
 
+We will use [`concurrent.futures`](https://docs.python.org/3/library/concurrent.futures.html) library's `ThreadPoolExecutor` class to manage the multithreading.
+
 A basic syntax would look something like this
 
 ```python title="benchmark.py"
@@ -266,14 +268,10 @@ MAX_THREADS = 5
 BENCHMARK_SCORE_THRESHOLD = 50
 logger = structlog.get_logger(__name__)
 
-
 # highlight-start
 class PerformanceBelowExpected(Exception):
     """Hardware performance is below expected"""
-
-
 # highlight-end
-
 
 def benchmark_cpu(ssh_client, server_id):
     """CPU benchmarks a single server"""
@@ -316,9 +314,9 @@ def benchmark_single_server(server_id):
         raise PerformanceBelowExpected(
             f"Hardware performance is below expectations {server_id=}"
         )
-
-
 # highlight-end
+
+
 def benchmark_multiple_servers(server_ids):
     """Orchestrates benchmarks of multiple server"""
     logger.info(f"Servers to benchmark: {server_ids}")
@@ -326,19 +324,20 @@ def benchmark_multiple_servers(server_ids):
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
         futures = {
             # Dict[asyncio.future,List[int]] (Dict comprehension)
-            # highlight-next-line
+# highlight-next-line
             executor.submit(benchmark_single_server, server_id): server_id
             for server_id in server_ids
         }
         for future in concurrent.futures.as_completed(futures):
             # Will be executed when a thread represented by future is completed.
-            # highlight-start
+# highlight-start
             server_id = futures[future]
             if future.exception():  # No exceptions raised == benchmark success
                 err = future.exception()
                 logger.error(f"Benchmark failed on {server_id=} with {err}.")
+# highlight-end
                 failed_servers.append(futures[future])
-            # highlight-end
+
 
     logger.info(
         f"Out of {len(server_ids)}, {len(failed_servers)} servers failed. {failed_servers=}"
@@ -425,9 +424,9 @@ In most cases, we don't want the main thread that orchestrates things to crash a
 :::note
 `future.result()` rethrows an error if an error was thrown on the thread. As such, instead of doing `future.exception()` you can also do a try except clause.
 
-I myself prefer the `future.exception()` because it is more friendly to pylint.
+I myself prefer the `future.exception()` because it is more friendly to [`pylint broad-exception-caught`](https://pylint.readthedocs.io/en/latest/user_guide/messages/warning/broad-exception-caught.html).
 :::
 
-As we can see, adding a 'per-thread main function' abstraction layer could actually simplify the whole process.
+As we can see, adding a 'per-thread main function' abstraction layer could actually simplify the whole process when scaling.
 
 Last updated: November 14, 2023
