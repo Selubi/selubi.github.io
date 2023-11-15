@@ -7,7 +7,7 @@ tags:
   - Python
 ---
 
-# Background
+## Background
 
 Depending the writer, a guide on multi-threading will focus on different things.
 
@@ -22,7 +22,13 @@ In this tutorial we will consider a scenario where we want to perform benchmarks
 Hence, our use-case will be I/O bound (i.e. waiting for remote server to finish benchmarking) and will not be affected by GIL's demerit.
 During "wait periods" GIL will be released and the interpreter could work on other threads.
 
-# Basic syntax
+All the python snippets in this note is executable as is. Just make sure to have structlog installed.
+
+```bash
+pip install structlog
+```
+
+## Basic syntax
 
 Consider that we want to perform benchmarks on servers.
 
@@ -130,7 +136,7 @@ This script has multiple points it can be improved on:
 
 In the following section we will build on this base syntax address these issues.
 
-# The not-blind orchestrator
+## The not-blind orchestrator
 
 Right now, the orchestrator doesn't know which server failed the benchmark.
 
@@ -243,7 +249,7 @@ $ grep 7085 benchmark.log
 2023-11-15 11:24:27 [info     ] Out of 10, 3 servers failed. failed_servers=[7085, 30749, 32687]
 ```
 
-# Scaling to more complex per-thread workloads
+## Scaling to more complex per-thread workloads
 
 As it is right now, the main thread, `benchmark_multiple_servers()` directly accepts the benchmark score and decides if the server failed or not.
 
@@ -334,7 +340,7 @@ def benchmark_multiple_servers(server_ids):
             server_id = futures[future]
             if future.exception():  # No exceptions raised == benchmark success
                 err = future.exception()
-                logger.error(f"Benchmark failed on {server_id=} with {err}.")
+                logger.error(f"Benchmark failed on {server_id=} with {type(err)}: {err}.")
 # highlight-end
                 failed_servers.append(futures[future])
     logger.info(
@@ -362,55 +368,55 @@ A sample output of this script will look as below.
 
 ```log
 $ python3 benchmark.py
-2023-11-15 12:24:00 [info     ] Servers to benchmark: [24318, 25634, 45461, 16233, 35516, 7582, 37233, 41992, 14548, 24315]
-2023-11-15 12:24:01 [info     ] CPU benchmark completed after 1s for server_id=25634
-2023-11-15 12:24:01 [info     ] CPU benchmark score is 34 for server_id=25634
-2023-11-15 12:24:03 [info     ] CPU benchmark completed after 3s for server_id=24318
-2023-11-15 12:24:03 [info     ] CPU benchmark score is 36 for server_id=24318
-2023-11-15 12:24:07 [info     ] CPU benchmark completed after 7s for server_id=35516
-2023-11-15 12:24:07 [info     ] CPU benchmark score is 26 for server_id=35516
-2023-11-15 12:24:07 [info     ] GPU benchmark completed after 4s for server_id=24318
-2023-11-15 12:24:07 [info     ] GPU benchmark score is 36 for server_id=24318
-2023-11-15 12:24:07 [error    ] Benchmark failed on server_id=24318 with Hardware performance is below expectations server_id=24318.
-2023-11-15 12:24:08 [info     ] CPU benchmark completed after 8s for server_id=16233
-2023-11-15 12:24:08 [info     ] CPU benchmark score is 79 for server_id=16233
-2023-11-15 12:24:08 [info     ] GPU benchmark completed after 7s for server_id=25634
-2023-11-15 12:24:08 [info     ] GPU benchmark score is 12 for server_id=25634
-2023-11-15 12:24:08 [error    ] Benchmark failed on server_id=25634 with Hardware performance is below expectations server_id=25634.
-2023-11-15 12:24:09 [info     ] CPU benchmark completed after 9s for server_id=45461
-2023-11-15 12:24:09 [info     ] CPU benchmark score is 92 for server_id=45461
-2023-11-15 12:24:09 [info     ] CPU benchmark completed after 1s for server_id=37233
-2023-11-15 12:24:09 [info     ] CPU benchmark score is 17 for server_id=37233
-2023-11-15 12:24:11 [info     ] GPU benchmark completed after 3s for server_id=16233
-2023-11-15 12:24:11 [info     ] GPU benchmark score is 84 for server_id=16233
-2023-11-15 12:24:16 [info     ] GPU benchmark completed after 7s for server_id=37233
-2023-11-15 12:24:16 [info     ] GPU benchmark score is 12 for server_id=37233
-2023-11-15 12:24:16 [error    ] Benchmark failed on server_id=37233 with Hardware performance is below expectations server_id=37233.
-2023-11-15 12:24:17 [info     ] GPU benchmark completed after 8s for server_id=45461
-2023-11-15 12:24:17 [info     ] GPU benchmark score is 26 for server_id=45461
-2023-11-15 12:24:17 [info     ] GPU benchmark completed after 10s for server_id=35516
-2023-11-15 12:24:17 [error    ] Benchmark failed on server_id=45461 with Hardware performance is below expectations server_id=45461.
-2023-11-15 12:24:17 [info     ] GPU benchmark score is 70 for server_id=35516
-2023-11-15 12:24:17 [error    ] Benchmark failed on server_id=35516 with Hardware performance is below expectations server_id=35516.
-2023-11-15 12:24:17 [info     ] CPU benchmark completed after 10s for server_id=7582
-2023-11-15 12:24:17 [info     ] CPU benchmark score is 15 for server_id=7582
-2023-11-15 12:24:20 [info     ] CPU benchmark completed after 3s for server_id=24315
-2023-11-15 12:24:20 [info     ] CPU benchmark score is 76 for server_id=24315
-2023-11-15 12:24:21 [info     ] GPU benchmark completed after 1s for server_id=24315
-2023-11-15 12:24:21 [info     ] CPU benchmark completed after 10s for server_id=41992
-2023-11-15 12:24:21 [info     ] GPU benchmark score is 25 for server_id=24315
-2023-11-15 12:24:21 [info     ] CPU benchmark score is 54 for server_id=41992
-2023-11-15 12:24:21 [error    ] Benchmark failed on server_id=24315 with Hardware performance is below expectations server_id=24315.
-2023-11-15 12:24:24 [info     ] GPU benchmark completed after 3s for server_id=41992
-2023-11-15 12:24:24 [info     ] GPU benchmark score is 61 for server_id=41992
-2023-11-15 12:24:25 [info     ] GPU benchmark completed after 8s for server_id=7582
-2023-11-15 12:24:25 [info     ] GPU benchmark score is 52 for server_id=7582
-2023-11-15 12:24:25 [error    ] Benchmark failed on server_id=7582 with Hardware performance is below expectations server_id=7582.
-2023-11-15 12:24:25 [info     ] CPU benchmark completed after 9s for server_id=14548
-2023-11-15 12:24:25 [info     ] CPU benchmark score is 93 for server_id=14548
-2023-11-15 12:24:28 [info     ] GPU benchmark completed after 3s for server_id=14548
-2023-11-15 12:24:28 [info     ] GPU benchmark score is 87 for server_id=14548
-2023-11-15 12:24:28 [info     ] Out of 10, 7 servers failed. failed_servers=[24318, 25634, 37233, 45461, 35516, 24315, 7582]
+2023-11-15 14:55:45 [info     ] Servers to benchmark: [1467, 45545, 7368, 17084, 3923, 14130, 15201, 1978, 6741, 8751]
+2023-11-15 14:55:48 [info     ] CPU benchmark completed after 3s for server_id=3923
+2023-11-15 14:55:48 [info     ] CPU benchmark score is 53 for server_id=3923
+2023-11-15 14:55:49 [info     ] CPU benchmark completed after 4s for server_id=45545
+2023-11-15 14:55:49 [info     ] CPU benchmark score is 2 for server_id=45545
+2023-11-15 14:55:49 [info     ] CPU benchmark completed after 4s for server_id=17084
+2023-11-15 14:55:49 [info     ] CPU benchmark score is 5 for server_id=17084
+2023-11-15 14:55:50 [info     ] CPU benchmark completed after 5s for server_id=1467
+2023-11-15 14:55:50 [info     ] CPU benchmark score is 63 for server_id=1467
+2023-11-15 14:55:50 [info     ] GPU benchmark completed after 1s for server_id=17084
+2023-11-15 14:55:50 [info     ] GPU benchmark score is 7 for server_id=17084
+2023-11-15 14:55:50 [error    ] Benchmark failed on server_id=17084 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=17084.
+2023-11-15 14:55:52 [info     ] GPU benchmark completed after 4s for server_id=3923
+2023-11-15 14:55:52 [info     ] GPU benchmark score is 93 for server_id=3923
+2023-11-15 14:55:54 [info     ] CPU benchmark completed after 9s for server_id=7368
+2023-11-15 14:55:54 [info     ] CPU benchmark score is 41 for server_id=7368
+2023-11-15 14:55:54 [info     ] CPU benchmark completed after 2s for server_id=15201
+2023-11-15 14:55:54 [info     ] CPU benchmark score is 49 for server_id=15201
+2023-11-15 14:55:56 [info     ] GPU benchmark completed after 2s for server_id=7368
+2023-11-15 14:55:56 [info     ] GPU benchmark score is 69 for server_id=7368
+2023-11-15 14:55:56 [error    ] Benchmark failed on server_id=7368 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=7368.
+2023-11-15 14:55:58 [info     ] GPU benchmark completed after 9s for server_id=45545
+2023-11-15 14:55:58 [info     ] GPU benchmark score is 36 for server_id=45545
+2023-11-15 14:55:58 [error    ] Benchmark failed on server_id=45545 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=45545.
+2023-11-15 14:55:59 [info     ] GPU benchmark completed after 9s for server_id=1467
+2023-11-15 14:55:59 [info     ] GPU benchmark score is 50 for server_id=1467
+2023-11-15 14:55:59 [info     ] CPU benchmark completed after 9s for server_id=14130
+2023-11-15 14:55:59 [info     ] CPU benchmark score is 76 for server_id=14130
+2023-11-15 14:55:59 [info     ] GPU benchmark completed after 5s for server_id=15201
+2023-11-15 14:55:59 [info     ] GPU benchmark score is 33 for server_id=15201
+2023-11-15 14:55:59 [error    ] Benchmark failed on server_id=15201 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=15201.
+2023-11-15 14:56:00 [info     ] CPU benchmark completed after 2s for server_id=6741
+2023-11-15 14:56:00 [info     ] CPU benchmark score is 62 for server_id=6741
+2023-11-15 14:56:00 [info     ] GPU benchmark completed after 1s for server_id=14130
+2023-11-15 14:56:00 [info     ] GPU benchmark score is 15 for server_id=14130
+2023-11-15 14:56:00 [error    ] Benchmark failed on server_id=14130 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=14130.
+2023-11-15 14:56:02 [info     ] CPU benchmark completed after 6s for server_id=1978
+2023-11-15 14:56:02 [info     ] CPU benchmark score is 77 for server_id=1978
+2023-11-15 14:56:04 [info     ] GPU benchmark completed after 4s for server_id=6741
+2023-11-15 14:56:04 [info     ] GPU benchmark score is 46 for server_id=6741
+2023-11-15 14:56:04 [error    ] Benchmark failed on server_id=6741 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=6741.
+2023-11-15 14:56:06 [info     ] CPU benchmark completed after 7s for server_id=8751
+2023-11-15 14:56:06 [info     ] CPU benchmark score is 7 for server_id=8751
+2023-11-15 14:56:07 [info     ] GPU benchmark completed after 1s for server_id=8751
+2023-11-15 14:56:07 [info     ] GPU benchmark score is 99 for server_id=8751
+2023-11-15 14:56:07 [error    ] Benchmark failed on server_id=8751 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=8751.
+2023-11-15 14:56:11 [info     ] GPU benchmark completed after 9s for server_id=1978
+2023-11-15 14:56:11 [info     ] GPU benchmark score is 54 for server_id=1978
+2023-11-15 14:56:11 [info     ] Out of 10, 7 servers failed. failed_servers=[17084, 7368, 45545, 15201, 14130, 6741, 8751]
 ```
 
 A welcome side effect of this approach is that now, `benchmark_multiple_servers()` will also catch unexpected errors and will not crash.
@@ -426,5 +432,193 @@ I myself prefer the `future.exception()` because it is more friendly to [`pylint
 :::
 
 As we can see, adding a 'per-thread main function' abstraction layer could actually simplify the whole process when scaling.
+
+# A more flexible and less verbose logging
+
+So far we put `server_id` manually in the message when calling the the logger.
+As is, its really more of an inconvenience but let's think of another situation.
+
+As aligned with our design, we call single threaded functions with `benchmark_single_server()`.
+Now, what if for example we decided to use other already-existing single threaded functions?
+Those functions will not have `server_id` baked into the log and logs from them will be confusing.
+Actually, `ssh_client` would be a good example of this. functions from the `ssh_client` class will most likely be a single threaded function and we need to find a way to log it.
+
+Luckily, if we use `structlog`, [`structlog.contextvars.bind_contextvars()`](https://www.structlog.org/en/stable/api.html#structlog.contextvars.bind_contextvars) is perfect for this.
+`bind_contextvars()` binds a variable to the current thread it is called on, and subsequent calls of structlog's logger, even different instances of it, will output the context variable in the log.
+
+As such, we can modify our existing code this way.
+
+```python title="benchmark.py" showLineNumbers
+import concurrent.futures
+import structlog
+from time import sleep
+from unittest.mock import Mock
+from random import randint, sample
+
+MAX_THREADS = 5
+BENCHMARK_SCORE_THRESHOLD = 50
+logger = structlog.get_logger(__name__)
+
+
+class PerformanceBelowExpected(Exception):
+    """Hardware performance is below expected"""
+
+
+def benchmark_cpu(ssh_client):
+    """CPU benchmarks a single server"""
+
+    # Normally you would run some benchmark commands via the ssh_client
+    # But we are just going to simulate it with sleep and random for this tutorial
+    benchmark_time = randint(1, 10)
+    sleep(benchmark_time)  # Simulate time it needs to benchmark
+    # highlight-next-line
+    logger.info(f"CPU benchmark completed after {benchmark_time}s.")
+    benchmark_score = randint(0, 100)
+    # highlight-next-line
+    logger.info(f"CPU benchmark score is {benchmark_score}.")
+    return benchmark_score
+
+
+def benchmark_gpu(ssh_client):
+    """GPU benchmarks a single server"""
+
+    # Normally you would run some benchmark commands via the ssh_client
+    # But we are just going to simulate it with sleep and random for this tutorial
+    benchmark_time = randint(1, 10)
+    sleep(benchmark_time)  # Simulate time it needs to benchmark
+    # highlight-next-line
+    logger.info(f"GPU benchmark completed after {benchmark_time}s.")
+    benchmark_score = randint(0, 100)
+    # highlight-next-line
+    logger.info(f"GPU benchmark score is {benchmark_score}.")
+    return benchmark_score
+
+
+def benchmark_single_server(server_id):
+    """Perform benchmarks on a single server"""
+    # SSH client is now defined here because it is the same across benchmarks
+    # highlight-next-line
+    structlog.contextvars.bind_contextvars(server_id=server_id)
+    ssh_client = Mock()
+    ssh_client.connect(server_id)
+
+    cpu_score = benchmark_cpu(ssh_client)
+    gpu_score = benchmark_gpu(ssh_client)
+    if cpu_score < BENCHMARK_SCORE_THRESHOLD or gpu_score < BENCHMARK_SCORE_THRESHOLD:
+        raise PerformanceBelowExpected(
+            f"Hardware performance is below expectations {server_id=}"
+        )
+
+
+def benchmark_multiple_servers(server_ids):
+    """Orchestrates benchmarks of multiple server"""
+    logger.info(f"Servers to benchmark: {server_ids}")
+    failed_servers = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
+        futures = {
+            # Dict[asyncio.future,List[int]] (Dict comprehension)
+            executor.submit(benchmark_single_server, server_id): server_id
+            for server_id in server_ids
+        }
+        for future in concurrent.futures.as_completed(futures):
+            # Will be executed when a thread represented by future is completed.
+            server_id = futures[future]
+            if future.exception():  # No exceptions raised == benchmark success
+                err = future.exception()
+                logger.error(
+                    f"Benchmark failed on {server_id=} with {type(err)}: {err}."
+                )
+                failed_servers.append(futures[future])
+
+    logger.info(
+        f"Out of {len(server_ids)}, {len(failed_servers)} servers failed. {failed_servers=}"
+    )
+
+
+if __name__ == "__main__":
+    # Generate 10 random server_id
+    server_ids_to_benchmark = sample(range(1, 50000), 10)
+    benchmark_multiple_servers(server_ids_to_benchmark)
+```
+
+A sample output of this script will look like below.
+
+```log
+$ python3 benchmark.py
+2023-11-15 14:58:31 [info     ] Servers to benchmark: [5304, 256, 11673, 5614, 44759, 11242, 25182, 25801, 9711, 28137]
+2023-11-15 14:58:32 [info     ] CPU benchmark completed after 1s. server_id=5614
+2023-11-15 14:58:32 [info     ] CPU benchmark score is 81.     server_id=5614
+2023-11-15 14:58:34 [info     ] CPU benchmark completed after 3s. server_id=256
+2023-11-15 14:58:34 [info     ] CPU benchmark score is 80.     server_id=256
+2023-11-15 14:58:36 [info     ] CPU benchmark completed after 5s. server_id=5304
+2023-11-15 14:58:36 [info     ] CPU benchmark score is 63.     server_id=5304
+2023-11-15 14:58:38 [info     ] CPU benchmark completed after 7s. server_id=11673
+2023-11-15 14:58:38 [info     ] CPU benchmark score is 7.      server_id=11673
+2023-11-15 14:58:39 [info     ] CPU benchmark completed after 8s. server_id=44759
+2023-11-15 14:58:39 [info     ] CPU benchmark score is 49.     server_id=44759
+2023-11-15 14:58:40 [info     ] GPU benchmark completed after 8s. server_id=5614
+2023-11-15 14:58:40 [info     ] GPU benchmark score is 82.     server_id=5614
+2023-11-15 14:58:42 [info     ] GPU benchmark completed after 8s. server_id=256
+2023-11-15 14:58:42 [info     ] GPU benchmark score is 61.     server_id=256
+2023-11-15 14:58:42 [info     ] GPU benchmark completed after 6s. server_id=5304
+2023-11-15 14:58:42 [info     ] GPU benchmark score is 20.     server_id=5304
+2023-11-15 14:58:42 [error    ] Benchmark failed on server_id=5304 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=5304.
+2023-11-15 14:58:42 [info     ] GPU benchmark completed after 3s. server_id=44759
+2023-11-15 14:58:42 [info     ] GPU benchmark score is 71.     server_id=44759
+2023-11-15 14:58:42 [error    ] Benchmark failed on server_id=44759 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=44759.
+2023-11-15 14:58:43 [info     ] GPU benchmark completed after 5s. server_id=11673
+2023-11-15 14:58:43 [info     ] GPU benchmark score is 73.     server_id=11673
+2023-11-15 14:58:43 [error    ] Benchmark failed on server_id=11673 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=11673.
+2023-11-15 14:58:44 [info     ] CPU benchmark completed after 2s. server_id=25801
+2023-11-15 14:58:44 [info     ] CPU benchmark score is 91.     server_id=25801
+2023-11-15 14:58:46 [info     ] CPU benchmark completed after 6s. server_id=11242
+2023-11-15 14:58:46 [info     ] CPU benchmark completed after 3s. server_id=28137
+2023-11-15 14:58:46 [info     ] CPU benchmark score is 47.     server_id=11242
+2023-11-15 14:58:46 [info     ] CPU benchmark score is 57.     server_id=28137
+2023-11-15 14:58:46 [info     ] GPU benchmark completed after 2s. server_id=25801
+2023-11-15 14:58:46 [info     ] GPU benchmark score is 96.     server_id=25801
+2023-11-15 14:58:47 [info     ] GPU benchmark completed after 1s. server_id=28137
+2023-11-15 14:58:47 [info     ] GPU benchmark score is 99.     server_id=28137
+2023-11-15 14:58:48 [info     ] GPU benchmark completed after 2s. server_id=11242
+2023-11-15 14:58:48 [info     ] GPU benchmark score is 81.     server_id=11242
+2023-11-15 14:58:48 [error    ] Benchmark failed on server_id=11242 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=11242.
+2023-11-15 14:58:50 [info     ] CPU benchmark completed after 8s. server_id=25182
+2023-11-15 14:58:50 [info     ] CPU benchmark score is 87.     server_id=25182
+2023-11-15 14:58:52 [info     ] CPU benchmark completed after 10s. server_id=9711
+2023-11-15 14:58:52 [info     ] CPU benchmark score is 52.     server_id=9711
+2023-11-15 14:58:55 [info     ] GPU benchmark completed after 5s. server_id=25182
+2023-11-15 14:58:55 [info     ] GPU benchmark score is 14.     server_id=25182
+2023-11-15 14:58:55 [error    ] Benchmark failed on server_id=25182 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=25182.
+2023-11-15 14:58:56 [info     ] GPU benchmark completed after 4s. server_id=9711
+2023-11-15 14:58:56 [info     ] GPU benchmark score is 11.     server_id=9711
+2023-11-15 14:58:56 [error    ] Benchmark failed on server_id=9711 with <class '__main__.PerformanceBelowExpected'>: Hardware performance is below expectations server_id=9711.
+2023-11-15 14:58:56 [info     ] Out of 10, 6 servers failed. failed_servers=[5304, 44759, 11673, 11242, 25182, 9711]
+```
+
+As we can see, even though we deleted the `server_id` from each message, we can set context variable at the start of a thread and all subsequent structlog calls for that thread does show `server_id`.
+
+As mentioned, the great thing about this is that all structlog calls, including the ones from libraries will have `server_id` with it.
+Also, notice that the main thread doesn't have any context variable set to it.
+
+Naturally, this also work with `grep` or manual searching with `Ctrl+f`.
+
+```log
+$ grep 25801 benchmark.log
+2023-11-15 14:58:31 [info     ] Servers to benchmark: [5304, 256, 11673, 5614, 44759, 11242, 25182, 25801, 9711, 28137]
+2023-11-15 14:58:44 [info     ] CPU benchmark completed after 2s. server_id=25801
+2023-11-15 14:58:44 [info     ] CPU benchmark score is 91.     server_id=25801
+2023-11-15 14:58:46 [info     ] GPU benchmark completed after 2s. server_id=25801
+2023-11-15 14:58:46 [info     ] GPU benchmark score is 96.     server_id=25801
+```
+
+## Conclusion
+
+Multithreading comes in different shapes.
+In this note we discussed an example of multithreading usage for server automations.
+
+We started with a basic syntax and addresses each problem little by little, and in the end we have an easily extensible multithreaded code that produces easily debuggable log.
+We also show that this approach is great for re-using existing single-threaded functions and making it multithreaded.
+
+In a real-world deployment, scripts like this may be run either by trigger or periodically by a CI/CD tool like Jenkins. It will also most probably receive a config and the servers to benchmark from somewhere.
 
 Last updated: November 15, 2023
