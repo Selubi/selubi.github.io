@@ -11,9 +11,16 @@ tags:
 
 Depending the writer, a guide on multi-threading will focus on different things.
 
-For me, my background is from bare-metal server operation automations.
+For me, my background is server operation automations.
 As such, my uses for multithreading is performing automations on multiple server at once (e.g. one server per thread),
-how to orchestrate it effectively and how to make a good multithreaded log it.
+how to orchestrate it effectively and how to make a good log for easier troubleshooting.
+
+It is worth mentioning that python has a [Global Interpreter Lock](https://wiki.python.org/moin/GlobalInterpreterLock)(GIL).
+This makes sure that only a single thread can be executed at a single point in time.
+
+In this tutorial we will consider a scenario where we want to perform benchmarks on remote servers.
+Hence, our use-case will be I/O bound (i.e. waiting for remote server to finish benchmarking) and will not be affected by GIL's demerit.
+During "wait periods" GIL will be released and the interpreter could work on other threads.
 
 # Basic syntax
 
@@ -163,26 +170,26 @@ def benchmark_cpu(server_id):
 def benchmark_multiple_servers(server_ids):
     """Orchestrates benchmarks of multiple server"""
     logger.info(f"Servers to benchmark: {server_ids}")
-    // highlight-next-line
+    # highlight-next-line
     failed_servers = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
-        // highlight-start
+        # highlight-start
         futures = {
             # Dict[asyncio.future,List[int]] (Dict comprehension)
             executor.submit(benchmark_cpu, server_id): server_id
             for server_id in server_ids
         }
-        // highlight-end
+        # highlight-end
         for future in concurrent.futures.as_completed(futures):
             # Will be executed when a thread represented by future is completed.
             if future.result() < 50:
                 // highlight-next-line
                 failed_servers.append(futures[future])
-    // highlight-start
+    # highlight-start
     logger.info(
         f"Out of {len(server_ids)}, {len(failed_servers)} servers failed. {failed_servers=}"
     )
-    // highlight-end
+    # highlight-end
 
 
 if __name__ == "__main__":
@@ -220,7 +227,9 @@ $ python3 benchmark.py
 ```
 
 So, whats good about this?
-The operators that will read the log will instantly know which servers failed.
+Operators usually check at the end of the log first, and aggregating everything the operators need to know at the end is good practice.
+
+By aggregating the failed servers at the end, the operators that will read the log will instantly know which servers failed.
 They can then `Ctrl+F` the log, or `grep` by `server_id` to filter and troubleshoot.
 
 Assuming the above output was saved into `benchmark.log`, we can do something like below.
