@@ -59,4 +59,17 @@ It is also highly recommended to [set tmux windows to open in the attaching wind
 
 Resource: [Official tmux Integration Best Practices](https://gitlab.com/gnachman/iterm2/-/wikis/tmux-Integration-Best-Practices)
 
+### Potential trouble
+
+#### Session window not burying, ssh seemingly hangs
+
+If you are in a local tmux window and try to open a tmux window this way remotely, it might seem that it hangs.
+For me, by not using tmux locally and only using it remotely with this fixes the issue.
+
+Generally, I don't have anything important running locally, but I do remotely, so this current setup works well for me.
+
+#### Clashes with existing tmux configurations
+
+If some weird behavior happens, it might worth to try to pass `-f /dev/null` with the tmux command to ignore any existing configs.
+
 Last updated: January 10, 2024
