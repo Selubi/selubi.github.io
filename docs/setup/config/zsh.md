@@ -8,14 +8,9 @@ tags:
   - Z Shell
 ---
 
-```bash title="~/.zshrc"
-# If not in tmux, start tmux.
-# if [[ -z ${TMUX+X}${ZSH_SCRIPT+X}${ZSH_EXECUTION_STRING+X} ]]; then
-#   exec tmux
-# fi
-
-# Move first prompt to bottom
-printf '\n%.0s' {1..100}
+```bash
+# Tmux
+tmux -CC new -A -s main
 
 # Activate Powerlevel10k Instant Prompt.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -38,15 +33,6 @@ source $ZSH/oh-my-zsh.sh
 ```bash title="~/.zprofile"
 # Homebrew
 eval $(/opt/homebrew/bin/brew shellenv)
-
-# Python
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-# Ruby
-eval "$(rbenv init - zsh)"
-
 ```
 
 ```bash title="~/.p10k.zsh"

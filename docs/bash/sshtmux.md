@@ -15,6 +15,8 @@ The benefit of doing it this way instead of invoking tmux from the shell profile
 
 When we detach, the SSH connection closed but we can reattach the tmux session when we reconnect.
 
+Refer to [iTerm2](#iterm2) instead if you want to use [iTerm2 and tmux Integration](https://gitlab.com/gnachman/iterm2/-/wikis/TmuxIntegration).
+
 ```bash
 # Override ssh to automatically execute tmux
 function ssh() {
@@ -27,9 +29,34 @@ function ssh() {
         return 1
     fi
 
-    echo "Executing ssh -tA $@ \"tmux has-session && tmux attach || tmux\""
-    command ssh -tA $@ "tmux has-session && tmux attach || tmux"
+    echo "Executing ssh -tA $@ \"tmux new -A -s main\""
+    command ssh -tA $@ "tmux new -A -s main"
 }
 ```
 
-Last updated: October 11, 2023
+## iTerm2
+
+Similar to the above, we just pass `-CC` in the tmux command as below
+
+```bash
+# Override ssh to automatically execute tmux
+function ssh() {
+    echo "The ssh command is being wrapped to execute tmux. Refer to your shell profile."
+    if [ "$#" -lt 1 ]; then
+        echo "usage: ssh [options] destination"
+        # Print the original usage guide of ssh
+        echo "original ssh usage:"
+        command ssh
+        return 1
+    fi
+
+    echo "Executing ssh -tA $@ \"tmux -CC new -A -s main\""
+    command ssh -tA $@ "tmux -CC new -A -s main"
+}
+```
+
+It is also highly recommended to [set tmux windows to open in the attaching window, and bury the tmux client session](https://gitlab.com/gnachman/iterm2/-/wikis/tmux-Integration-Best-Practices#what-other-settings-are-relevant)
+
+Resource: [Official tmux Integration Best Practices](https://gitlab.com/gnachman/iterm2/-/wikis/tmux-Integration-Best-Practices)
+
+Last updated: January 10, 2024
