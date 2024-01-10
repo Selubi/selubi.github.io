@@ -70,6 +70,6 @@ Generally, I don't have anything important running locally, but I do remotely, s
 
 #### Clashes with existing tmux configurations
 
-If some weird behavior happens, it might worth to try to pass `-f /dev/null` with the tmux command to ignore any existing configs.
+If some weird behavior happens, it might worth to try to do `command ssh -tA $@ "tmux -CC -f /dev/null new -A -s main"` instead to ignore any existing configs on the remote server.
 
 Last updated: January 10, 2024
