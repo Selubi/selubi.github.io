@@ -26,9 +26,7 @@ We can use the standard library module [`json`](https://docs.python.org/3/librar
 
 We will use the data from [JSON Placeholder](https://jsonplaceholder.typicode.com/) for this demo.
 
-### From string
-
-#### Read
+### Read from string
 
 ```python
 import json
@@ -69,7 +67,7 @@ Outputs:
 2. type(user)=<class 'dict'>
 ```
 
-#### Write
+#### Write to string
 
 ```python
 import json
@@ -109,20 +107,105 @@ print(f"2. {type(user_json)=}")
 Outputs:
 
 ```
-Traceback (most recent call last):
-  File "/Users/bryan.gregorius/Playground/main.py", line 101, in <module>
-    user_json = json.dumps(user_dict)
-                ^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bryan.gregorius/.pyenv/versions/3.11.4/lib/python3.11/json/__init__.py", line 231, in dumps
-    return _default_encoder.encode(obj)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bryan.gregorius/.pyenv/versions/3.11.4/lib/python3.11/json/encoder.py", line 200, in encode
-    chunks = self.iterencode(o, _one_shot=True)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/bryan.gregorius/.pyenv/versions/3.11.4/lib/python3.11/json/encoder.py", line 258, in iterencode
-    return _iterencode(o, 0)
-           ^^^^^^^^^^^^^^^^^
 TypeError: keys must be str, int, float, bool or None, not tuple
 ```
 
 :::
+
+## Cleaning up JSON file: Converting string numbers to actual numbers
+
+We sometimes receive JSON files that populates numbers as string, even though its actually numbers.
+
+Here is a generic solution to convert string numbers to actual numbers (`float`/`int`),
+
+```python
+from typing import Dict, List
+import json
+import requests
+
+
+def clean_string_number_in_object(
+    element: str | int | float | list | dict | bool | None,
+) -> str | int | float | list | dict | bool | None:
+    """
+    This function converts every string number element to int or float, in that order.
+    The output of json.loads() can immediately be passed to this function to be cleaned
+    Recursively access each element if given a dictionary or list. JSON compliant.
+    Ref: https://json-schema.org/understanding-json-schema/reference
+    """
+    if type(element) is str:  # Convert string numbers to integers
+        return str_to_number(element)
+    if type(element) is dict:
+        return clean_string_number_in_dict(element)
+    if type(element) is list:
+        return clean_string_number_in_list(element)
+    return element
+
+
+def str_to_number(string: str) -> int | float | str:
+    """
+    Try to convert string number to int or float, in that order.
+    Return original string if not possible."""
+    number_class_precedence = [int, float]
+    for number_class in number_class_precedence:
+        try:
+            return number_class(string)
+        except ValueError:
+            continue
+    return string
+
+
+def clean_string_number_in_dict(dictionary: Dict) -> Dict:
+    """
+    Returns a dict where every string number value is converted to int or float.
+    Does not modify the original dict. JSON compliant.
+    """
+    cleaned_dict = {}
+    for key, value in dictionary.items():
+        cleaned_dict[key] = clean_string_number_in_object(value)
+    return cleaned_dict
+
+
+def clean_string_number_in_list(lst: List) -> List:
+    """
+    Returns a list where every string number item is converted to int or float.
+    Does not modify the original list. JSON compliant.
+    """
+    cleaned_lst = []
+    for item in lst:
+        cleaned_lst.append(clean_string_number_in_object(item))
+    return cleaned_lst
+
+
+json_str = """{
+    "id" :"21",
+    "somestring": "foobar",
+    "actual_int": 54,
+    "geolocation": {
+      "lat": "-37.3159",
+      "lng": "81.1496"
+    },
+    "mixed_array":[
+        "string_in_array",
+        "22",
+        22,
+        {
+            "string_number_in_object_in_array": "100",
+            "actual_number_in_object_in_array": 200
+        }
+    ]
+}
+"""
+
+dirty_dict_from_json = json.loads(json_str)
+clean_dict_from_json = clean_string_number_in_object(dirty_dict_from_json)
+print(f"1. {dirty_dict_from_json=}")
+print(f"2. {clean_dict_from_json=}")
+```
+
+Outputs:
+
+```
+1. dirty_dict_from_json={'id': '21', 'somestring': 'foobar', 'actual_int': 54, 'geolocation': {'lat': '-37.3159', 'lng': '81.1496'}, 'mixed_array': ['string_in_array', '22', 22, {'string_number_in_object_in_array': '100', 'actual_number_in_object_in_array': 200}]}
+2. clean_dict_from_json={'id': 21, 'somestring': 'foobar', 'actual_int': 54, 'geolocation': {'lat': -37.3159, 'lng': 81.1496}, 'mixed_array': ['string_in_array', 22, 22, {'string_number_in_object_in_array': 100, 'actual_number_in_object_in_array': 200}]}
+```
