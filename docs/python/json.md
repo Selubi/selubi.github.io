@@ -67,7 +67,7 @@ Outputs:
 2. type(user)=<class 'dict'>
 ```
 
-#### Write to string
+### Write to string
 
 ```python
 import json
