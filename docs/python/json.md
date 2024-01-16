@@ -8,9 +8,9 @@ tags:
   - JSON
 ---
 
-# Crash Course
+## Crash Course
 
-## JSON to Python type mapping
+### JSON to Python type mapping
 
 Reference: https://json-schema.org/understanding-json-schema/reference/type
 
@@ -23,11 +23,11 @@ Reference: https://json-schema.org/understanding-json-schema/reference/type
 | boolean | bool      |
 | null    | none      |
 
-## Reading and writing JSON
+### Reading and writing JSON
 
 We can use the standard library module [`json`](https://docs.python.org/3/library/json.html) to handle JSON in python.
 
-### Read from string
+#### Read from string
 
 ```python
 import json
@@ -68,7 +68,7 @@ Outputs:
 2. type(user)=<class 'dict'>
 ```
 
-### Write to string
+#### Write to string
 
 ```python
 import json
@@ -114,9 +114,9 @@ TypeError: keys must be str, int, float, bool or None, not tuple
 
 :::
 
-# Practical Guide
+## Practical Guide
 
-## Cleaning up JSON file: Converting string numbers to actual numbers
+### Cleaning up JSON file: Converting string numbers to actual numbers
 
 We sometimes receive JSON files that populates numbers as string, even though its actually numbers.
 
