@@ -87,6 +87,7 @@ Outputs:
 ```
 
 :::Note
+
 JSON can only contain string as keys.
 While some types such as `int` will be attempted to be converted, it is good practice to make sure
 the underlying data type is JSON compliant in the first place.
