@@ -5,6 +5,7 @@ sidebar_label: Handling JSON
 sidebar_position: 100
 tags:
   - Python
+  - JSON
 ---
 
 ## JSON to Python type mapping
@@ -210,3 +211,5 @@ Outputs:
 1. dirty_dict_from_json={'id': '21', 'somestring': 'foobar', 'actual_int': 54, 'geolocation': {'lat': '-37.3159', 'lng': '81.1496'}, 'mixed_array': ['string_in_array', '22', 22, {'string_number_in_object_in_array': '100', 'actual_number_in_object_in_array': 200}]}
 2. clean_dict_from_json={'id': 21, 'somestring': 'foobar', 'actual_int': 54, 'geolocation': {'lat': -37.3159, 'lng': 81.1496}, 'mixed_array': ['string_in_array', 22, 22, {'string_number_in_object_in_array': 100, 'actual_number_in_object_in_array': 200}]}
 ```
+
+Last updated: January 16, 2024
