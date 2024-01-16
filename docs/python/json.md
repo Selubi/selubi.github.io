@@ -86,7 +86,7 @@ Outputs:
 2. type(user_json)=<class 'str'>
 ```
 
-:::Note
+:::note
 
 JSON can only contain string as keys.
 While some types such as `int` will be attempted to be converted, it is good practice to make sure
